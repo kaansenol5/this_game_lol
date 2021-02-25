@@ -14,4 +14,5 @@ add_executable(
   src/Player.cpp
   src/EventHandler.cpp
   src/Enemy.cpp
+  src/Entity.cpp
 )
