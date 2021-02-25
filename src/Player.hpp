@@ -7,7 +7,9 @@ public:
   ~Player();
   void HandleMovement(const Uint8* state);
   //void update();
-  virtual void render();
+
+  int health = 500;
 private:
   int movement_speed;
+  int damage;
 };

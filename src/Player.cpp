@@ -22,8 +22,3 @@ void Player::HandleMovement(const Uint8 *state){
     move(0,movement_speed);
   }
 }
-
-
-void Player::render(){
-  SDL_RenderCopy(Game::renderer, texture, &source_rect, &destination_rect);
-}

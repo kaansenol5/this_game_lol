@@ -14,8 +14,8 @@ int main(){
   while (game->running){
     frameStart = SDL_GetTicks();
 
-    game->update();
-    game->render();
+    game->updateFrame();
+    
     eventhandler->HandleEvents();
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){

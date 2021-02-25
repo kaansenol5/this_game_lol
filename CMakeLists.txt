@@ -8,10 +8,10 @@ project(NukeTown)
 add_executable(
   NukeTown
   src/main.cpp
-  src/Entity.cpp
   src/Game.cpp
   src/GameObject.cpp
   src/TextureManager.cpp
   src/Player.cpp
   src/EventHandler.cpp
+  src/Enemy.cpp
 )
