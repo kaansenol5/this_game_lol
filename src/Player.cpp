@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Player::Player(char* texturesheet, SDL_Rect dstrect, int actual_width, int actual_height, int sprite_amount, int movement_speed)
+Player::Player(char* texturesheet, SDL_Rect dstrect, int actual_width, int actual_height, int sprite_amount, int movement_speed, short damage)
 : Entity(texturesheet, dstrect, actual_width, actual_height, sprite_amount, movement_speed, damage){
 
 }
