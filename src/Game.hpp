@@ -13,7 +13,7 @@ public:
   Game();
   ~Game();
 
-  void updateFrame();
+  void updateFrame(int i);
   static int Width;
   static int Height;
   std::string Title;

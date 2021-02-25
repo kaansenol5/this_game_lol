@@ -8,21 +8,24 @@ Enemy::Enemy(char* texturesheet, SDL_Rect dstrect, int actual_width, int actual_
 Enemy::~Enemy(){};
 
 void Enemy::AttackPlayer(){
-  if(destination_rect.x < Game::player->destination_rect.x){
-    destination_rect.x += movement_speed;
-  }
-  if(destination_rect.x > Game::player->destination_rect.x){
-    destination_rect.x -= movement_speed;
-  }
-  if(destination_rect.y < Game::player->destination_rect.y){
-    destination_rect.y += movement_speed;
-  }
-  if(destination_rect.y > Game::player->destination_rect.y){
-    destination_rect.y -= movement_speed;
-  }
-  if(destination_rect.x == Game::player->destination_rect.x && destination_rect.y == Game::player->destination_rect.y){
+  if(destination_rect.x >= Game::player->destination_rect.x - (actual_width+Game::player->actual_width) && destination_rect.x <= Game::player->destination_rect.x + (actual_width+Game::player->actual_width) && destination_rect.y >= Game::player->destination_rect.y - (actual_width+Game::player->actual_width) && destination_rect.y <= Game::player->destination_rect.y + (actual_width+Game::player->actual_width)){
     HitPlayer();
   }
+  else{
+    if(destination_rect.x < Game::player->destination_rect.x){
+      destination_rect.x += movement_speed;
+    }
+    if(destination_rect.x > Game::player->destination_rect.x){
+      destination_rect.x -= movement_speed;
+    }
+    if(destination_rect.y < Game::player->destination_rect.y){
+      destination_rect.y += movement_speed;
+    }
+    if(destination_rect.y > Game::player->destination_rect.y){
+      destination_rect.y -= movement_speed;
+    }
+  }
+
 }
 
 
