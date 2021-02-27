@@ -10,15 +10,15 @@ Player* Game::player = nullptr;
 
 Game::Game(){
   SDL_Init(SDL_INIT_EVERYTHING);
-  Width = 800;
-  Height = 840;
+  Width = 1920;
+  Height = 1080;
   Title = "NukeTown";
   TTF_Init();
   window = SDL_CreateWindow(Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Width, Height, 0);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); //create renderer
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
   running=true;
-  player = new Player("assets/sprites/wizard.png", {0,0,128,128}, 32, 32,4,6, 1);
+  player = new Player("assets/sprites/wizard.png", {Width/2,Height/2,128,128}, 32, 32,4,6, 1);
   randomEnemySpawning();
   game_map = new Map();
 }
@@ -37,8 +37,8 @@ void Game::updateFrame(int i){
   if(i % 600 == 0){
     randomEnemySpawning();
   }
-//  game_map->offset_x = player->destination_rect.x;
-//  game_map->offset_y = player->destination_rect.y;
+  game_map->offset_x = player->loc_x*-1;
+  game_map->offset_y = player->loc_y*-1;
 
   SDL_RenderPresent(renderer);
 }

@@ -9,16 +9,40 @@ Player::~Player(){}
 
 void Player::HandleMovement(const Uint8 *state){
 
-  if((state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT]) && destination_rect.x > 0){
-    move(movement_speed*-1,0);
+  if((state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT])){
+    if(destination_rect.x > 200){
+      move(movement_speed*-1,0);
+    }
+    else{
+      if(loc_x > 0){
+        loc_x-=movement_speed;
+      }
+    }
   }
-  if((state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT]) && destination_rect.x + actual_width < Game::Width){
-    move(movement_speed,0);
+  if((state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT])){
+    if(destination_rect.x < Game::Width-200){
+      move(movement_speed,0);
+    }
+    else{
+      loc_x+=movement_speed;
+    }
   }
-  if((state[SDL_SCANCODE_W] || state[SDL_SCANCODE_LEFT]) && destination_rect.y > 0){
-    move(0,movement_speed*-1);
+  if((state[SDL_SCANCODE_W] || state[SDL_SCANCODE_LEFT])){
+    if(destination_rect.y > 200){
+      move(0, movement_speed * -1);
+    }
+    else{
+      if(loc_y > 0){
+        loc_y-=movement_speed;
+      }
+    }
   }
-  if((state[SDL_SCANCODE_S] || state[SDL_SCANCODE_RIGHT]) && destination_rect.y + actual_height < Game::Height){
-    move(0,movement_speed);
+  if((state[SDL_SCANCODE_S] || state[SDL_SCANCODE_RIGHT])){
+    if(destination_rect.y < Game::Height-200){
+      move(0, movement_speed);
+    }
+    else{
+      loc_y+=movement_speed;
+    }
   }
 }

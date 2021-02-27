@@ -7,7 +7,7 @@
 struct Tile{
   int type;
   int asset;
-  bool display = false;
+//  bool display = false;
 };
 
 

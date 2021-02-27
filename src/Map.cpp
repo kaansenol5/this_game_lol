@@ -35,14 +35,15 @@ void Map::render(){
   for(int i = 0; i < game_map.size(); i++){
     for(int ii = 0; ii < game_map[i].size(); ii++){
 
-        int source_x = 32 * (game_map[i][ii].asset+1);
+        int source_x = 32 * (game_map[i][ii].asset);
       //  std::cout << "tile rendered" << std::endl;
 
-        SDL_Rect src_rect = {source_x,0,32,32};
-        SDL_Rect dst_rect = {32*i,32*ii,32,32};
-        if(dst_rect.x >= 0  && dst_rect.x <= Game::Width){
+        SDL_Rect src_rect = {source_x, 0, 32, 32};
+        SDL_Rect dst_rect = {32 * i + offset_x - 32, 32 * ii + offset_y - 32, 32, 32};
+
+        if(dst_rect.x >= -5*32  && dst_rect.x <= Game::Width + 5*32){
         //  std::cout << "yoo" << std::endl;
-          if(dst_rect.y >= 0  && dst_rect.y <= Game::Height){
+          if(dst_rect.y >= -5*32  && dst_rect.y <= Game::Height + 5*32){
           //  std::cout << game_map[i][ii].type << std::endl;
             switch (game_map[i][ii].type) {
               case 0:
