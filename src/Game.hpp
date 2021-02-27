@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include <vector>
 #include "Enemy.hpp"
+#include "Map.hpp"
 
 class Game{
 public:
@@ -22,6 +23,7 @@ public:
   static Player* player;
 private:
   void randomEnemySpawning();
+  Map* game_map;
   SDL_Window* window;
   std::vector<Enemy*> Enemies; //TODO: replace int with the name of enemy class
 };

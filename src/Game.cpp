@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <iostream>
+#include <ctime>
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -19,10 +20,12 @@ Game::Game(){
   running=true;
   player = new Player("assets/sprites/wizard.png", {0,0,128,128}, 32, 32,4,6, 1);
   randomEnemySpawning();
+  game_map = new Map();
 }
 
 void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
+  game_map->render();
   player->update();
   player->render();
   for(unsigned i=0; i < Enemies.size(); i++){
@@ -30,10 +33,13 @@ void Game::updateFrame(int i){
     Enemies[i]->render();
   }
   player->render();
-  std::cout << player->health << std::endl;
+  //std::cout << player->health << std::endl;
   if(i % 600 == 0){
     randomEnemySpawning();
   }
+//  game_map->offset_x = player->destination_rect.x;
+//  game_map->offset_y = player->destination_rect.y;
+
   SDL_RenderPresent(renderer);
 }
 

@@ -1,7 +1,9 @@
 #include "Game.hpp"
 #include "EventHandler.hpp"
 #include <iostream>
+#include <ctime>
 int main(){
+  srand((unsigned) time(NULL));
   const int FPS = 60;
   const int frameDelay = 1000 / FPS;
   Uint32 frameStart;
@@ -17,7 +19,7 @@ int main(){
 
     game->updateFrame(i);
     i++;
-    std::cout << i << "\n";
+  //  std::cout << i << "\n";
     eventhandler->HandleEvents();
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){

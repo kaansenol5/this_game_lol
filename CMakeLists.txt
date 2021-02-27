@@ -15,4 +15,5 @@ add_executable(
   src/EventHandler.cpp
   src/Enemy.cpp
   src/Entity.cpp
+  src/Map.cpp
 )
