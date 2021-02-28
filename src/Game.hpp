@@ -6,6 +6,7 @@
 #include "TextureManager.hpp"
 #include <vector>
 #include "Map.hpp"
+#include "include/entt.hpp"
 
 class Game{
 public:
