@@ -7,6 +7,7 @@ struct TransformComponent{
   SDL_Rect source_rect;
   SDL_Rect destination_rect;
   SDL_Texture* texture;
+  int movement_speed;
 };
 
 void render(SDL_Renderer* renderer, TransformComponent Transform);
