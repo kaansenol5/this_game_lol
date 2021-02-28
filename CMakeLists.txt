@@ -9,10 +9,9 @@ add_executable(
   NukeTown
   src/main.cpp
   src/Game.cpp
-
   src/TextureManager.cpp
-
   src/EventHandler.cpp
-
   src/Map.cpp
+  src/EntityComponents/SpriteScroll.cpp
+  src/EntityComponents/Transform.cpp
 )
