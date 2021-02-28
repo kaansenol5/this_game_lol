@@ -2,7 +2,8 @@
 #include <iostream>
 #include <ctime>
 #include "EntityComponents/Transform.h"
-
+#include "EntityComponents/Character.h"
+#include "EntityComponents/SpriteScroll.h"
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -21,7 +22,9 @@ Game::Game(){
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
   running=true;
   player = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,0,0,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,Width/2,Height/2,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<CharacterComponent>(player);
+  EntityRegistry.emplace<SpriteScroll>(player,3,1,0,0,32,32,true,false);
   randomEnemySpawning();
   game_map = new Map();
 }
@@ -31,11 +34,24 @@ Game::Game(){
 void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
   game_map->render();
-  auto characters = EntityRegistry.view<TransformComponent>();
-  for(auto entity : characters){
-    TransformComponent &Transform = characters.get<TransformComponent>(entity);
+  auto renderable = EntityRegistry.view<TransformComponent>();
+  for(auto entity : renderable){
+    TransformComponent &Transform = renderable.get<TransformComponent>(entity);
     render(renderer, Transform);
   }
+  auto characters = EntityRegistry.view<CharacterComponent>();
+  for(auto entity : characters){
+    CharacterComponent &component = characters.get<CharacterComponent>(entity);
+    if(component.is_enemy){
+      AttackPlayer(EntityRegistry.get<TransformComponent>(entity), EntityRegistry.get<TransformComponent>(player));
+    }
+  }
+  auto scrolling_entities = EntityRegistry.view<SpriteScroll>();
+  for(auto entity : scrolling_entities){
+    SpriteScroll &scroll = scrolling_entities.get<SpriteScroll>(entity);
+    System_SpriteScroll(scroll, EntityRegistry.get<TransformComponent>(player).source_rect);
+    }
+
 
 
   //std::cout << player->health << std::endl;
@@ -52,8 +68,7 @@ void Game::randomEnemySpawning(){
   int y = rand() % Height;
   auto enemy = EntityRegistry.create();
   EntityRegistry.emplace<TransformComponent>(enemy,  x,y,0,0,32,32,x,y,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
-
-
+  EntityRegistry.emplace<CharacterComponent>(enemy, true, false);
 }
 
 Game::~Game(){

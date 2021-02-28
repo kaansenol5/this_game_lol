@@ -10,4 +10,4 @@ struct SpriteScroll{
   bool y_scrolls;
 };
 
-void System_SpriteScroll(SpriteScroll info, SDL_Rect &source_rect);
+void System_SpriteScroll(SpriteScroll &info, SDL_Rect &source_rect);

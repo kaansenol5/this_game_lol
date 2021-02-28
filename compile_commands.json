@@ -33,5 +33,10 @@
   "directory": "/home/kaan/projects/nuketown_game",
   "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Transform.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp",
   "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Character.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Character.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Character.cpp"
 }
 ]
