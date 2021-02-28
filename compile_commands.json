@@ -23,5 +23,15 @@
   "directory": "/home/kaan/projects/nuketown_game",
   "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/Map.cpp.o -c /home/kaan/projects/nuketown_game/src/Map.cpp",
   "file": "/home/kaan/projects/nuketown_game/src/Map.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/SpriteScroll.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/SpriteScroll.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/SpriteScroll.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Transform.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp"
 }
 ]
