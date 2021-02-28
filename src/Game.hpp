@@ -19,9 +19,10 @@ public:
   std::string Title;
   static SDL_Renderer* renderer;
   static bool running;
-
+  static entt::entity player;
 private:
   void randomEnemySpawning();
   Map* game_map;
+  entt::registry EntityRegistry;
   SDL_Window* window;
 };
