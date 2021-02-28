@@ -1,12 +1,15 @@
 #include "Game.hpp"
 #include <iostream>
 #include <ctime>
+#include "EntityComponents/Transform.h"
+#include "EntityComponents/Character.h"
+#include "EntityComponents/SpriteScroll.h"
 
 int Game::Width = 0;
 int Game::Height = 0;
 SDL_Renderer* Game::renderer = nullptr;
 bool Game::running = true;
-Player* Game::player = nullptr;
+entt::entity Game::player = entt::null;
 
 Game::Game(){
   SDL_Init(SDL_INIT_EVERYTHING);
@@ -18,27 +21,43 @@ Game::Game(){
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); //create renderer
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
   running=true;
-  player = new Player("assets/sprites/wizard.png", {Width/2,Height/2,128,128}, 32, 32,4,6, 1);
+  player = EntityRegistry.create();
+  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,Width/2,Height/2,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<CharacterComponent>(player);
+  EntityRegistry.emplace<SpriteScroll>(player,3,1,0,0,32,32,true,false);
   randomEnemySpawning();
   game_map = new Map();
 }
 
+
+
 void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
   game_map->render();
-  player->update();
-  player->render();
-  for(unsigned i=0; i < Enemies.size(); i++){
-    Enemies[i]->update();
-    Enemies[i]->render();
+  auto renderable = EntityRegistry.view<TransformComponent>();
+  for(auto entity : renderable){
+    TransformComponent &Transform = renderable.get<TransformComponent>(entity);
+    render(renderer, Transform);
   }
-  player->render();
+  auto characters = EntityRegistry.view<CharacterComponent>();
+  for(auto entity : characters){
+    CharacterComponent &component = characters.get<CharacterComponent>(entity);
+    if(component.is_enemy){
+      AttackPlayer(EntityRegistry.get<TransformComponent>(entity), EntityRegistry.get<TransformComponent>(player));
+    }
+  }
+  auto scrolling_entities = EntityRegistry.view<SpriteScroll>();
+  for(auto entity : scrolling_entities){
+    SpriteScroll &scroll = scrolling_entities.get<SpriteScroll>(entity);
+    System_SpriteScroll(scroll, EntityRegistry.get<TransformComponent>(player).source_rect);
+    }
+
+
+
   //std::cout << player->health << std::endl;
   if(i % 600 == 0){
-    randomEnemySpawning();
+    //randomEnemySpawning();
   }
-  game_map->offset_x = player->loc_x*-1;
-  game_map->offset_y = player->loc_y*-1;
 
   SDL_RenderPresent(renderer);
 }
@@ -47,8 +66,9 @@ void Game::updateFrame(int i){
 void Game::randomEnemySpawning(){
   int x = rand() % Width;
   int y = rand() % Height;
-  Enemies.push_back(new Enemy("assets/sprites/wizard.png",{x,y,128,128},32, 32, 4, 2, 1));
-
+  auto enemy = EntityRegistry.create();
+  EntityRegistry.emplace<TransformComponent>(enemy,  x,y,0,0,32,32,x,y,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<CharacterComponent>(enemy, true, false);
 }
 
 Game::~Game(){

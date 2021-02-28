@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/main.cpp.o -c /home/kaan/projects/nuketown_game/src/main.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/main.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/Game.cpp.o -c /home/kaan/projects/nuketown_game/src/Game.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/Game.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/TextureManager.cpp.o -c /home/kaan/projects/nuketown_game/src/TextureManager.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/TextureManager.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EventHandler.cpp.o -c /home/kaan/projects/nuketown_game/src/EventHandler.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EventHandler.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/Map.cpp.o -c /home/kaan/projects/nuketown_game/src/Map.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/Map.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/SpriteScroll.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/SpriteScroll.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/SpriteScroll.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Transform.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Character.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Character.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Character.cpp"
+}
+]

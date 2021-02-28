@@ -4,10 +4,9 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "TextureManager.hpp"
-#include "Player.hpp"
 #include <vector>
-#include "Enemy.hpp"
 #include "Map.hpp"
+#include "include/entt.hpp"
 
 class Game{
 public:
@@ -20,10 +19,10 @@ public:
   std::string Title;
   static SDL_Renderer* renderer;
   static bool running;
-  static Player* player;
+  static entt::entity player;
 private:
   void randomEnemySpawning();
   Map* game_map;
+  entt::registry EntityRegistry;
   SDL_Window* window;
-  std::vector<Enemy*> Enemies; //TODO: replace int with the name of enemy class
 };

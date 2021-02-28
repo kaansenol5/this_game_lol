@@ -8,7 +8,7 @@ void EventHandler::HandleEvents(){
 
 void EventHandler::HandlePlayerEvents(){
   const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
-  Game::player->HandleMovement(keyboard_state);
+//  Game::player->HandleMovement(keyboard_state);
 }
 
 void EventHandler::HandleBaseEvents(){
