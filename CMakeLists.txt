@@ -15,4 +15,5 @@ add_executable(
   src/EntityComponents/SpriteScroll.cpp
   src/EntityComponents/Transform.cpp
   src/EntityComponents/Character.cpp
+  src/EntityComponents/Player.cpp
 )

@@ -4,6 +4,7 @@
 #include "EntityComponents/Transform.h"
 #include "EntityComponents/Character.h"
 #include "EntityComponents/SpriteScroll.h"
+#include "EntityComponents/Player.h"
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -22,9 +23,10 @@ Game::Game(){
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
   running=true;
   player = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,Width/2,Height/2,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,Width/2,Height/2,128,128,TextureManager::load_texture("assets/sprites/wizard.png"),6);
   EntityRegistry.emplace<CharacterComponent>(player);
   EntityRegistry.emplace<SpriteScroll>(player,3,1,0,0,32,32,true,false);
+  EntityRegistry.emplace<Player>(player);
   randomEnemySpawning();
   game_map = new Map();
 }
@@ -51,6 +53,11 @@ void Game::updateFrame(int i){
     SpriteScroll &scroll = scrolling_entities.get<SpriteScroll>(entity);
     System_SpriteScroll(scroll, EntityRegistry.get<TransformComponent>(player).source_rect);
     }
+  auto players = EntityRegistry.view<SpriteScroll>();
+  for(auto entity : players){
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    KeyHandle(state, EntityRegistry.get<TransformComponent>(entity));
+    }
 
 
 
@@ -67,7 +74,7 @@ void Game::randomEnemySpawning(){
   int x = rand() % Width;
   int y = rand() % Height;
   auto enemy = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(enemy,  x,y,0,0,32,32,x,y,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
+  EntityRegistry.emplace<TransformComponent>(enemy,  x,y,0,0,32,32,x,y,128,128,TextureManager::load_texture("assets/sprites/wizard.png"),2);
   EntityRegistry.emplace<CharacterComponent>(enemy, true, false);
 }
 
