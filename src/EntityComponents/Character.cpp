@@ -1,16 +1,19 @@
 #include "Character.h"
+#include <iostream>
 
 void AttackPlayer(TransformComponent &self_transform, TransformComponent &player_transform){
-  if(self_transform.destination_rect.x > player_transform.destination_rect.x + 80){
-    self_transform.destination_rect.x--;
+  std::cout << self_transform.x_on_map << " x " << player_transform.x_on_map << std::endl;
+  std::cout << self_transform.y_on_map << " y " << player_transform.y_on_map << std::endl;
+  if(self_transform.x_on_map > player_transform.x_on_map + 80){
+    self_transform.x_on_map--;
   }
-  if(self_transform.destination_rect.x < player_transform.destination_rect.x - 80){
-    self_transform.destination_rect.x++;
+  if(self_transform.x_on_map < player_transform.x_on_map- 80){
+    self_transform.x_on_map++;
   }
-  if(self_transform.destination_rect.y > player_transform.destination_rect.y + 80){
-    self_transform.destination_rect.y--;
+  if(self_transform.y_on_map > player_transform.y_on_map + 80){
+    self_transform.y_on_map--;
   }
-  if(self_transform.destination_rect.y < player_transform.destination_rect.y - 80){
-    self_transform.destination_rect.y++;
+  if(self_transform.y_on_map < player_transform.y_on_map - 80){
+    self_transform.y_on_map++;
   }
 }
