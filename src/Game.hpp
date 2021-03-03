@@ -14,10 +14,11 @@ public:
   static int Height;
   static SDL_Renderer* renderer;
   static entt::registry EntityRegistry;
-  void update(int i);
-  void render();
+  void updateFrame(int i);
+  bool check_running();
 private:
   char* title;
+  bool running;
   SDL_Window* window;
   void RandomEnemySpawning();
 };
