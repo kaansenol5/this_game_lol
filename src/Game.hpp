@@ -17,10 +17,10 @@ public:
   static entt::entity player;
   void updateFrame(int i);
   bool check_running();
+  static Map* map;
 private:
   char* title;
   bool running;
   SDL_Window* window;
-  Map* map;
   void RandomEnemySpawning();
 };

@@ -26,16 +26,40 @@ void EventHandler::PlayerController(const Uint8 *state){
   for(auto player : players){
     TransformComponent &player_transform = Game::EntityRegistry.get<TransformComponent>(player);
     if(state[config["up"]]){
-      player_transform.move(0, player_transform.movement_speed*-1);
+      if(player_transform.dst_rect.y > 200){
+        player_transform.move(0, player_transform.movement_speed*-1);
+        Game::map->scrolled = false;
+      }
+      else{
+        Game::map->scroll(0, player_transform.movement_speed);
+      }
     }
     if(state[config["down"]]){
-      player_transform.move(0, player_transform.movement_speed);
+      if(player_transform.dst_rect.y < Game::Height -200){
+        player_transform.move(0, player_transform.movement_speed);
+        Game::map->scrolled = false;
+      }
+      else{
+        Game::map->scroll(0, player_transform.movement_speed*-1);
+      }
     }
     if(state[config["left"]]){
-      player_transform.move(player_transform.movement_speed*-1, 0);
+      if(player_transform.dst_rect.x > 200){
+        player_transform.move(player_transform.movement_speed*-1, 0);
+        Game::map->scrolled = false;
+      }
+      else{
+        Game::map->scroll(player_transform.movement_speed, 0);
+      }
     }
     if(state[config["right"]]){
-      player_transform.move(player_transform.movement_speed, 0);
+      if(player_transform.dst_rect.x < Game::Width -200){
+        player_transform.move(player_transform.movement_speed, 0);
+        Game::map->scrolled = false;
+      }
+      else{
+        Game::map->scroll(player_transform.movement_speed*-1, 0);
+      }
     }
   }
 
