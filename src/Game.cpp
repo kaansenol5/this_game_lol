@@ -1,7 +1,6 @@
 #include "Game.hpp"
 #include <SDL2/SDL.h>
 #include "EntityComponents/Transform.hpp"
-#include "Renderer.hpp"
 #include <iostream>
 #include "JsonLoader.hpp"
 
