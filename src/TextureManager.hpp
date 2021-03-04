@@ -5,8 +5,8 @@
 
 class TextureManager{
 public:
-  static inline SDL_Texture* load_texture(char* dir){
-    SDL_Surface* temp = IMG_Load(dir);
+  static inline SDL_Texture* load_texture(std::string dir){
+    SDL_Surface* temp = IMG_Load(dir.c_str());
     SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer, temp);
     SDL_FreeSurface(temp);
     return texture;
