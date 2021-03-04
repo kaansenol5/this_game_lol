@@ -1,14 +1,14 @@
 #pragma once
 #include "include/entt.hpp"
 #include <SDL2/SDL.h>
-
+#include "Map.hpp"
 //entt
 //use json
 
 
 class Game{
 public:
-  Game(char* title, int w, int h, int window_position_x, int window_position_y);
+  Game(int window_position_x, int window_position_y);
   ~Game();
   static int Width;
   static int Height;
@@ -20,5 +20,6 @@ private:
   char* title;
   bool running;
   SDL_Window* window;
+  Map* map;
   void RandomEnemySpawning();
 };
