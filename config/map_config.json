@@ -1,0 +1,17 @@
+{
+  "tilesize":32,
+  "tile_real_size":32,
+  "amount_of_types":2,
+  "map_size_x":100,
+  "map_size_y":100,
+  "0":{
+    "name":"stone",
+    "asset":"assets/tiles/stone.png",
+    "variations":3
+  },
+  "1":{
+    "name":"dirt",
+    "asset":"assets/tiles/dirt.png",
+    "variations":3
+  }
+}

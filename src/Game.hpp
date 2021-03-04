@@ -1,28 +1,25 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
-#include <string>
-#include "TextureManager.hpp"
-#include <vector>
-#include "Map.hpp"
 #include "include/entt.hpp"
+#include <SDL2/SDL.h>
+#include "Map.hpp"
+//entt
+//use json
+
 
 class Game{
 public:
-  Game();
+  Game(int window_position_x, int window_position_y);
   ~Game();
-
-  void updateFrame(int i);
   static int Width;
   static int Height;
-  std::string Title;
   static SDL_Renderer* renderer;
-  static bool running;
-  static entt::entity player;
+  static entt::registry EntityRegistry;
+  void updateFrame(int i);
+  bool check_running();
 private:
-  void randomEnemySpawning();
-  Map* game_map;
-  entt::registry EntityRegistry;
+  char* title;
+  bool running;
   SDL_Window* window;
+  Map* map;
+  void RandomEnemySpawning();
 };

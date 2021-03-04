@@ -5,3 +5,5 @@ CMakeCache.txt
 Makefile
 cmake_install.cmake
 .cache
+.idea
+compile_commands.json

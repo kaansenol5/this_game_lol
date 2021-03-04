@@ -1,79 +1,57 @@
 #include "Game.hpp"
+#include <SDL2/SDL.h>
+#include "EntityComponents/Transform.hpp"
+#include "Renderer.hpp"
 #include <iostream>
-#include <ctime>
-#include "EntityComponents/Transform.h"
-#include "EntityComponents/Character.h"
-#include "EntityComponents/SpriteScroll.h"
+#include "JsonLoader.hpp"
 
 int Game::Width = 0;
 int Game::Height = 0;
 SDL_Renderer* Game::renderer = nullptr;
-bool Game::running = true;
-entt::entity Game::player = entt::null;
+entt::registry Game::EntityRegistry = entt::registry();
+Game::Game(int window_position_x, int window_position_y){
+  if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
+    std::cout << "SDL INIT FAILED " << SDL_GetError() << std::endl;
+    exit(1);
+  }
+  auto j = JsonLoader::load("config/game_config.json");
 
-Game::Game(){
-  SDL_Init(SDL_INIT_EVERYTHING);
-  Width = 1920;
-  Height = 1080;
-  Title = "NukeTown";
-  TTF_Init();
-  window = SDL_CreateWindow(Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Width, Height, 0);
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); //create renderer
+  Width=j["width"];
+  Height=j["height"];
+  std::string name = j["name"];
+  window = SDL_CreateWindow(name.c_str(), window_position_x, window_position_y, Width, Height, 0);
+  if(!window){
+    std::cout << "Window not created " << SDL_GetError() << std::endl;
+  }
+  renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+  if(!renderer){
+    std::cout << "Renderer not created " << SDL_GetError() << std::endl;
+  }
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
-  running=true;
-  player = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(player, 0,0,0,0,32,32,Width/2,Height/2,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
-  EntityRegistry.emplace<CharacterComponent>(player);
-  EntityRegistry.emplace<SpriteScroll>(player,3,1,0,0,32,32,true,false);
-  randomEnemySpawning();
-  game_map = new Map();
+  if(window&&renderer){
+    running = true;
+  }
+  else{
+    running = false;
+  }
+  entt::entity player = EntityRegistry.create();
+  EntityRegistry.emplace<TransformComponent>(player, 100,100,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
+  map = new Map;
 }
-
 
 
 void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
-  game_map->render();
   auto renderable = EntityRegistry.view<TransformComponent>();
+  map->render();
   for(auto entity : renderable){
     TransformComponent &Transform = renderable.get<TransformComponent>(entity);
-    render(renderer, Transform);
-  }
-  auto characters = EntityRegistry.view<CharacterComponent>();
-  for(auto entity : characters){
-    CharacterComponent &component = characters.get<CharacterComponent>(entity);
-    if(component.is_enemy){
-      AttackPlayer(EntityRegistry.get<TransformComponent>(entity), EntityRegistry.get<TransformComponent>(player));
-    }
-  }
-  auto scrolling_entities = EntityRegistry.view<SpriteScroll>();
-  for(auto entity : scrolling_entities){
-    SpriteScroll &scroll = scrolling_entities.get<SpriteScroll>(entity);
-    System_SpriteScroll(scroll, EntityRegistry.get<TransformComponent>(player).source_rect);
-    }
-
-
-
-  //std::cout << player->health << std::endl;
-  if(i % 600 == 0){
-    //randomEnemySpawning();
+    Transform.render();
   }
 
   SDL_RenderPresent(renderer);
 }
 
-
-void Game::randomEnemySpawning(){
-  int x = rand() % Width;
-  int y = rand() % Height;
-  auto enemy = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(enemy,  x,y,0,0,32,32,x,y,128,128,TextureManager::load_texture("assets/sprites/wizard.png"));
-  EntityRegistry.emplace<CharacterComponent>(enemy, true, false);
-}
-
-Game::~Game(){
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
-  SDL_Quit();
-  TTF_Quit();
+bool Game::check_running(){
+  return running;
 }

@@ -1,25 +1,34 @@
 #include "Map.hpp"
-#include "Game.hpp"
+#include "TextureManager.hpp"
 #include <iostream>
+#include <string>
 
 Map::Map(){
+  json c = JsonLoader::load("config/map_config.json");
+  config = c;
+  int amount_of_types = config["amount_of_types"];
+  for(int i = 0; i < amount_of_types; i++){
+    std::cout << amount_of_types << std::endl;
+    TileType tiletype = {TextureManager::load_texture(config[std::to_string(i)]["asset"]), config[std::to_string(i)]["variations"]};
+    tile_types.push_back(tiletype);
+  }
   RandomGeneration();
-  grass = TextureManager::load_texture("assets/tiles/dirt.png");
-  stone = TextureManager::load_texture("assets/tiles/stone.png");
 }
 
+bool Map::scrolled = false;
+
 void Map::RandomGeneration(){
-  int i = 0;
+  unsigned long i = 0;
   //srand((int)time(0));
-  while(i<1000){
+  while(i<config["map_size_x"]){
     i++;
   //  std::cout << "aaaa" << std::endl;
     std::vector<Tile> new_vec;
-    int ii = 0;
-    while(ii<1000){
+    unsigned long ii = 0;
+    while(ii<config["map_size_y"]){
       ii++;
-      int val1 = rand() % 2;
-      int val2 = rand() % 2;
+      int val1 = rand() % (int)config["amount_of_types"];
+      int val2 = rand() % tile_types[val1].variations;
       Tile tile = {val1, val2};
       new_vec.push_back(tile);
     }
@@ -28,7 +37,11 @@ void Map::RandomGeneration(){
 
 
 }
-
+void Map::scroll(int x, int y){
+  offset_x += x;
+  offset_y += y;
+  scrolled = true;
+}
 
 
 void Map::render(){
@@ -45,16 +58,7 @@ void Map::render(){
         //  std::cout << "yoo" << std::endl;
           if(dst_rect.y >= -5*32  && dst_rect.y <= Game::Height + 5*32){
           //  std::cout << game_map[i][ii].type << std::endl;
-            switch (game_map[i][ii].type) {
-              case 0:
-                SDL_RenderCopy(Game::renderer, grass, &src_rect , &dst_rect);
-                break;
-              //  std::cout << i << " " << ii << std::endl;
-              case 1:
-                SDL_RenderCopy(Game::renderer, stone, &src_rect , &dst_rect);
-                break;
-
-              }
+          SDL_RenderCopy(Game::renderer, tile_types[game_map[i][ii].type].texture, &src_rect , &dst_rect);
             }
           }
         }
