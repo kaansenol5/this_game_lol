@@ -59,13 +59,7 @@ void Map::render(){
         SDL_Rect src_rect = {source_x, 0, 32, 32};
         SDL_Rect dst_rect = {32 * i + offset_x - 32, 32 * ii + offset_y - 32, 32, 32};
 
-        if(dst_rect.x >= -5*32  && dst_rect.x <= Game::Width + 5*32){
-        //  std::cout << "yoo" << std::endl;
-          if(dst_rect.y >= -5*32  && dst_rect.y <= Game::Height + 5*32){
-          //  std::cout << game_map[i][ii].type << std::endl;
-          SDL_RenderCopy(Game::renderer, tile_types[game_map[i][ii].type].texture, &src_rect , &dst_rect);
-            }
-          }
+        TextureManager::render(tile_types[game_map[i][ii].type].texture, src_rect, dst_rect);
         }
     }
   }
