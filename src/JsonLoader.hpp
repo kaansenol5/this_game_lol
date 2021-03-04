@@ -1,3 +1,4 @@
+#pragma once
 #include "include/json.hpp"
 #include <iostream>
 #include <fstream>
@@ -7,14 +8,14 @@ using json = nlohmann::json;
 class JsonLoader{
 public:
   static json inline load(char* dirname){
+    std::cout << "loading " << dirname << std::endl;
     std::ifstream file;
-    file.open("config.json", std::ios::out);
+    file.open(dirname, std::ios::out);
     std::string text;
     std::string tmp;
     while (getline (file, tmp)) {
       text += tmp;
     }
-    std::cout << text << std::endl;
     auto j = json::parse(text);
     return j;
   }
