@@ -40,11 +40,12 @@ void Map::RandomGeneration(){
 void Map::scroll(int x, int y){
   if(offset_x+x <= 0 && offset_x+x < config["map_size_x"]){
     offset_x += x;
+    scrolled = true;
   }
   if(offset_y+y <= 0 && offset_y+y < config["map_size_y"]){
     offset_y += y;
+    scrolled = true;
   }
-  scrolled = true;
 }
 
 
