@@ -9,10 +9,10 @@ public:
   void render();
   void animate_sprites();
   void move(int x_diff, int y_diff);
+  int movement_speed;
 private:
   SDL_Rect src_rect;
   SDL_Rect dst_rect;
-  int movement_speed;
   int real_w;
   int real_h;
   bool animated;

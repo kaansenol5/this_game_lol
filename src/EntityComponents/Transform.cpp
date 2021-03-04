@@ -40,3 +40,8 @@ void TransformComponent::animate_sprites(){
     y_scrolls = false;
   }
 }
+
+void TransformComponent::move(int x_diff, int y_diff){
+  dst_rect.x += x_diff;
+  dst_rect.y += y_diff;
+}
