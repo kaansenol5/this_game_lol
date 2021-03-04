@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include <SDL2/SDL.h>
 #include "EntityComponents/Transform.hpp"
+#include "EntityComponents/Player.h"
 #include <iostream>
 #include "JsonLoader.hpp"
 
@@ -8,6 +9,8 @@ int Game::Width = 0;
 int Game::Height = 0;
 SDL_Renderer* Game::renderer = nullptr;
 entt::registry Game::EntityRegistry = entt::registry();
+entt::entity Game::player = entt::null;
+
 Game::Game(int window_position_x, int window_position_y){
   if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
     std::cout << "SDL INIT FAILED " << SDL_GetError() << std::endl;
@@ -35,6 +38,7 @@ Game::Game(int window_position_x, int window_position_y){
   }
   entt::entity player = EntityRegistry.create();
   EntityRegistry.emplace<TransformComponent>(player, 100,100,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
+  EntityRegistry.emplace<Player>(player, true);
   map = new Map;
 }
 

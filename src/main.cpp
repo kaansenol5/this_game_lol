@@ -1,10 +1,13 @@
 #include "Game.hpp"
+#include "EventHandler.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
 
 int main(){
   srand((unsigned) time(NULL));
   Game* game;
+  EventHandler* eventhandler;
+  eventhandler = new EventHandler;
   game = new Game(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED);
   const int FPS = 60;
   const int frameDelay = 1000 / FPS;
@@ -14,6 +17,7 @@ int main(){
   while (game->check_running()){
     frameStart = SDL_GetTicks();
 
+    eventhandler->HandleEvents();
     game->updateFrame(i);
     i++;
   //  std::cout << i << "\n";

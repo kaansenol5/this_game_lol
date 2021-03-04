@@ -14,6 +14,7 @@ public:
   static int Height;
   static SDL_Renderer* renderer;
   static entt::registry EntityRegistry;
+  static entt::entity player;
   void updateFrame(int i);
   bool check_running();
 private:
