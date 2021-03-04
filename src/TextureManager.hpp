@@ -12,6 +12,8 @@ public:
     return texture;
   }
   static inline void render(SDL_Texture* texture, SDL_Rect source, SDL_Rect dest){
-    SDL_RenderCopy(Game::renderer, texture, &source, &dest);
+    if(dest.x > -100 && dest.x < Game::Width+100 && dest.y > -100 && dest.y < Game::Height+100){
+      SDL_RenderCopy(Game::renderer, texture, &source, &dest);
+    }
   }
 };
