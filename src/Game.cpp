@@ -3,6 +3,7 @@
 #include "EntityComponents/Transform.hpp"
 #include "Renderer.hpp"
 #include <iostream>
+#include "JsonLoader.hpp"
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -13,7 +14,8 @@ Game::Game(char* title, int w, int h, int window_position_x, int window_position
     std::cout << "SDL INIT FAILED " << SDL_GetError() << std::endl;
     exit(1);
   }
-
+  auto j = JsonLoader::load("config.json");
+  std::cout << j["aaa"] << std::endl; 
   Width=w;
   Height=h;
   window = SDL_CreateWindow(title, window_position_x, window_position_y, Width, Height, 0);

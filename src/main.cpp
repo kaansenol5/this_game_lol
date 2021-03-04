@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <SDL2/SDL.h>
+#include <iostream>
 
 int main(){
   srand((unsigned) time(NULL));
@@ -11,14 +12,16 @@ int main(){
   int frameTime;
   int i = 0;
   while (game->check_running()){
-    frameStart = SDL_GetTicks();
+    //frameStart = SDL_GetTicks();
 
     game->updateFrame(i);
     i++;
+    exit(0);
   //  std::cout << i << "\n";
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
       SDL_Delay(frameDelay - frameTime);
     }
+    std::cout << sizeof(game) << std::endl;
   }
 }
