@@ -16,7 +16,10 @@ Compiler that supports C++17 or above (i use clang)
 # Compiling
 
 Run
-    cmake . -DCMAKE_C_COMPILER=clang DCMAKE_CXX_COMPILER=clang++
-    make
+
+~~~
+cmake . -DCMAKE_C_COMPILER=clang DCMAKE_CXX_COMPILER=clang++
+make
+~~~
 
 You don't *have* to use clang, but other compilers are not tested.
