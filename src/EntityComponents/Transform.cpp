@@ -2,22 +2,24 @@
 #include "../TextureManager.hpp"
 #include "../Game.hpp"
 #include <iostream>
-TransformComponent::TransformComponent(int x, int y, int width, int height, std::string directory, int speed, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls)
+TransformComponent::TransformComponent(int x, int y, int width, int height, std::string texture_file, int speed, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls)
 :  movement_speed(speed), real_w(real_w), real_h(real_h), animated(animated), sprite_amnt_x(sprite_amnt_x), sprite_amnt_y(sprite_amnt_y), x_scrolls(x_scrolls), y_scrolls(y_scrolls){
-  texture = TextureManager::load_texture((char*)directory.c_str());
-  std::cout << sizeof(texture) << std::endl;
+  texture = TextureManager::load_texture(texture_file.c_str());
   src_rect = {0,0,real_w, real_h};
-  dst_rect = {x, y, real_w, real_h};
+  dst_rect = {x, y, width, height};
 }
 
 TransformComponent::~TransformComponent(){
-  SDL_DestroyTexture(texture);
+//  SDL_DestroyTexture(texture);
 }
 
 void TransformComponent::render(){
   if(animated){
     animate_sprites();
   }
+  SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
+  SDL_RenderDrawRect(Game::renderer, &dst_rect);
+  SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
   TextureManager::render(texture, src_rect, dst_rect);
 }
 

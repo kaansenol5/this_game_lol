@@ -3,9 +3,8 @@
 #include <string>
 class TransformComponent{
 public:
-  TransformComponent(int x, int y, int width, int height, std::string directory, int speed, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls);
+  TransformComponent(int x, int y, int width, int height, std::string texture_file, int speed, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls);
   ~TransformComponent();
-  char* directory;
   void render();
   void animate_sprites();
   void move(int x_diff, int y_diff);

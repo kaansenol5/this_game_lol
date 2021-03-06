@@ -4,6 +4,7 @@
 #include "EntityComponents/Player.h"
 #include <iostream>
 #include "JsonLoader.hpp"
+#include <SDL2/SDL_image.h>
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -17,7 +18,8 @@ Game::Game(int window_position_x, int window_position_y){
     std::cout << "SDL INIT FAILED " << SDL_GetError() << std::endl;
     exit(1);
   }
-  auto j = JsonLoader::load("config/game_config.json");
+  IMG_Init(IMG_INIT_PNG);
+  auto j = JsonLoader::load((char*)"config/game_config.json");
 
   Width=j["width"];
   Height=j["height"];
@@ -40,6 +42,8 @@ Game::Game(int window_position_x, int window_position_y){
   entt::entity player = EntityRegistry.create();
   EntityRegistry.emplace<TransformComponent>(player, 100,100,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
   EntityRegistry.emplace<Player>(player, true);
+  entt::entity enemy = EntityRegistry.create();
+  EntityRegistry.emplace<TransformComponent>(enemy, 100,500,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
   map = new Map;
 }
 
@@ -48,6 +52,8 @@ void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
   auto renderable = EntityRegistry.view<TransformComponent>();
   map->render();
+
+
   for(auto entity : renderable){
     TransformComponent &Transform = renderable.get<TransformComponent>(entity);
     Transform.render();

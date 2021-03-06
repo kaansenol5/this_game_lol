@@ -20,7 +20,6 @@ int main(){
     eventhandler->HandleEvents();
     game->updateFrame(i);
     i++;
-  //  std::cout << i << "\n";
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
       SDL_Delay(frameDelay - frameTime);
