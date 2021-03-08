@@ -5,8 +5,8 @@
 #include "JsonLoader.hpp"
 
 struct Tile{
-  int type;
-  int asset;
+  unsigned char type;
+  unsigned char asset;
 };
 
 struct TileType{

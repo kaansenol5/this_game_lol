@@ -46,16 +46,16 @@ void Map::partial_map_gen(int startx, int starty){
   int i = startx;
   int ii = starty;
   unsigned long mapsizex = (int)config["map_size_x"];
-  int endx = i + mapsizex/5;
-  int endy = ii + mapsizex/5;
+  int endx = i + mapsizex/12;
+  int endy = ii + mapsizex/12;
   int amount_of_types = (int)config["amount_of_types"];
   using namespace std::chrono_literals;
   while(i<endx){
   //  std::cout << "aaaa" << std::endl;
     int ii = starty;
     while(ii<endy){
-      int val1 = rand() % amount_of_types;
-      int val2 = rand() % tile_types[val1].variations;
+      unsigned char val1 = rand() % amount_of_types;
+      unsigned char val2 = rand() % tile_types[val1].variations;
       Tile tile = {val1, val2};
       game_map[i][ii] = tile;
       ii++;
@@ -64,7 +64,7 @@ void Map::partial_map_gen(int startx, int starty){
     }
     i++;
   }
-  std::cout << "generated map between x: " << startx << " " << endx << " y: " << starty << std::endl;
+  std::cout << "generated map between x: " << startx << " - " << endx << " y: " << starty << " - " << endy << std::endl;
   return;
 }
 
@@ -76,12 +76,13 @@ void Map::RandomGeneration(){
   //srand((int)time(0));
   while(i<mapsizex){
     unsigned long ii = 0;
+    std::thread(&Map::partial_map_gen ,this,i,i).detach();
     while(ii<mapsizex){
-      std::thread(&Map::partial_map_gen ,this,i,ii).detach();
+      //std::thread(&Map::partial_map_gen ,this,i,ii).detach();
     //  std::cout << "thread call" <<std::endl;
-      ii+=mapsizex/5;
+      ii+=mapsizex/12;
     }
-    i+=mapsizex/5;
+    i+=mapsizex/12;
     //std::cout << i/10000 << std::endl;
   }
   std::cout << "all map gen threads started" << std::endl;
