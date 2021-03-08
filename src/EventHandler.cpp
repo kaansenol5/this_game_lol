@@ -27,41 +27,58 @@ void EventHandler::PlayerController(const Uint8 *state){
     TransformComponent &player_transform = Game::EntityRegistry.get<TransformComponent>(player);
     if(state[config["up"]]){
       if(player_transform.dst_rect.y > 200){
-        player_transform.move(0, player_transform.movement_speed*-1);
-        Game::map->scrolled = false;
+        player_transform.move(0, -1);
+        Game::map->scrolled_y = false;
       }
       else{
-        Game::map->scroll(0, player_transform.movement_speed);
+        Game::map->scroll(0, player_transform.movement_speed_y);
+        Game::map->scrolled_y = true;
       }
+    }
+    else{
+      Game::map->scrolled_y = false;
     }
     if(state[config["down"]]){
       if(player_transform.dst_rect.y < Game::Height -200){
-        player_transform.move(0, player_transform.movement_speed);
-        Game::map->scrolled = false;
+        player_transform.move(0, 1);
+        Game::map->scrolled_y = false;
       }
       else{
-        Game::map->scroll(0, player_transform.movement_speed*-1);
+        Game::map->scroll(0, -1*player_transform.movement_speed_y);
+        Game::map->scrolled_y = true;
       }
+    }
+    else{
+      Game::map->scrolled_y = false;
     }
     if(state[config["left"]]){
       if(player_transform.dst_rect.x > 200){
-        player_transform.move(player_transform.movement_speed*-1, 0);
-        Game::map->scrolled = false;
+        player_transform.move(-1, 0);
+        Game::map->scrolled_x = false;
       }
       else{
-        Game::map->scroll(player_transform.movement_speed, 0);
+        Game::map->scroll(player_transform.movement_speed_x,0);
+        Game::map->scrolled_x = true;
       }
+    }
+    else{
+      Game::map->scrolled_x = false;
     }
     if(state[config["right"]]){
       if(player_transform.dst_rect.x < Game::Width -200){
-        player_transform.move(player_transform.movement_speed, 0);
-        Game::map->scrolled = false;
+        player_transform.move(1, 0);
+        Game::map->scrolled_x = false;
       }
       else{
-        Game::map->scroll(player_transform.movement_speed*-1, 0);
+        Game::map->scroll(player_transform.movement_speed_x*-1, 0);
+        Game::map->scrolled_x = true;
       }
     }
+    else{
+      Game::map->scrolled_x = false;
+    }
   }
+
 
 
 }

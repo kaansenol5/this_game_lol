@@ -12,10 +12,11 @@ public:
     return texture;
   }
   static inline void render(SDL_Texture* texture, SDL_Rect source, SDL_Rect dest){
-    if(dest.x > -100 && dest.x < Game::Width+100 && dest.y > -100 && dest.y < Game::Height+100){
+    if(dest.x > -100 && dest.x < Game::Width+100 && dest.y > -100 && dest.y < Game::Height+100){ //check if destination rect is in the screen
       if(SDL_RenderCopy(Game::renderer, texture, &source, &dest) != 0){
         std::cout << SDL_GetError() << dest.x << " "  << dest.y << std::endl;
-      };
+      }
     }
+
   }
 };

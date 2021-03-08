@@ -5,6 +5,7 @@
 #include <iostream>
 #include "JsonLoader.hpp"
 #include <SDL2/SDL_image.h>
+#include "EntityComponents/NPC.hpp"
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -15,7 +16,7 @@ Map* Game::map = nullptr;
 
 Game::Game(int window_position_x, int window_position_y){
   if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
-    std::cout << "SDL INIT FAILED " << SDL_GetError() << std::endl;
+    std::cout << "SDL INIT FAILED errorcode: " << SDL_GetError() << std::endl;
     exit(1);
   }
   IMG_Init(IMG_INIT_PNG);
@@ -39,11 +40,12 @@ Game::Game(int window_position_x, int window_position_y){
   else{
     running = false;
   }
-  entt::entity player = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(player, 100,100,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
+  player = EntityRegistry.create();
+  EntityRegistry.emplace<TransformComponent>(player, 500,100,32,32,"assets/sprites/wizard.png", 3,3, 32,32, true, 3,1, true, false);
   EntityRegistry.emplace<Player>(player, true);
   entt::entity enemy = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(enemy, 100,500,128,128,"assets/sprites/wizard.png", 3, 32,32, true, 3, 1, true, false);
+  EntityRegistry.emplace<TransformComponent>(enemy, 100,500,32,32,"assets/sprites/wizard.png", 2,2, 32,32, true, 3,1, true, false);
+  EntityRegistry.emplace<NPC_Component>(enemy, NPC_ENEMY);
   map = new Map;
 }
 
@@ -58,7 +60,12 @@ void Game::updateFrame(int i){
     TransformComponent &Transform = renderable.get<TransformComponent>(entity);
     Transform.render();
   }
-
+  auto npcs = EntityRegistry.group<NPC_Component, TransformComponent>();
+  for(auto npc : npcs){
+    NPC_Component &npc_comp = npcs.get<NPC_Component>(npc);
+    TransformComponent &transform_comp = npcs.get<TransformComponent>(npc);
+    npc_comp.update(transform_comp, EntityRegistry.get<TransformComponent>(player));
+  }
   SDL_RenderPresent(renderer);
 }
 

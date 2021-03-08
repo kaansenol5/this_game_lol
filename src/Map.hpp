@@ -7,7 +7,6 @@
 struct Tile{
   int type;
   int asset;
-//  bool display = false;
 };
 
 struct TileType{
@@ -23,10 +22,12 @@ public:
   void RandomGeneration();
   void render();
   void scroll(int x, int y);
-  static bool scrolled;
+  bool scrolled_x = false;
+  bool scrolled_y = false;
 private:
   int offset_x = 0;
   int offset_y = 0;
+  int tilesize;
   json config;
   std::vector<TileType> tile_types;
   std::vector<std::vector<Tile>> game_map; //this will be either vector or very big number

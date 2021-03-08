@@ -10,54 +10,61 @@ Map::Map(){
   for(int i = 0; i < amount_of_types; i++){
     std::cout << amount_of_types << std::endl;
     TileType tiletype = {TextureManager::load_texture(config[std::to_string(i)]["asset"]), config[std::to_string(i)]["variations"]};
+    tilesize = (int)config["tilesize"];
     tile_types.push_back(tiletype);
   }
   RandomGeneration();
 }
 
-bool Map::scrolled = false;
+
 
 void Map::RandomGeneration(){
   unsigned long i = 0;
+  int mapsizex = (int)config["map_size_x"];
+  int mapsizey = (int)config["map_size_x"];
+  int amount_of_types = (int)config["amount_of_types"];
+  std::cout << "map generation begin" << std::endl;
   //srand((int)time(0));
-  while(i<config["map_size_x"]){
+  while(i<mapsizex){
     i++;
   //  std::cout << "aaaa" << std::endl;
     std::vector<Tile> new_vec;
     unsigned long ii = 0;
-    while(ii<config["map_size_y"]){
+    while(ii<mapsizey){
       ii++;
-      int val1 = rand() % (int)config["amount_of_types"];
+      int val1 = rand() % amount_of_types;
       int val2 = rand() % tile_types[val1].variations;
       Tile tile = {val1, val2};
       new_vec.push_back(tile);
     }
     game_map.push_back(new_vec);
   }
+  std::cout << "map generated" << std::endl;
 
 
 }
 void Map::scroll(int x, int y){
   if(offset_x+x <= 0 && offset_x+x < config["map_size_x"]){
     offset_x += x;
-    scrolled = true;
+
   }
   if(offset_y+y <= 0 && offset_y+y < config["map_size_y"]){
     offset_y += y;
-    scrolled = true;
+
   }
 }
 
 
 void Map::render(){
-  for(int i = 0; i < game_map.size(); i++){
-    for(int ii = 0; ii < game_map[i].size(); ii++){
-
-        int source_x = 32 * (game_map[i][ii].asset);
-      //  std::cout << "tile rendered" << std::endl;
-
+  unsigned long mapx = game_map.size(); // GETS MAP X SIZE
+  unsigned long mapy = game_map[1].size(); // MAP Y SIZE
+  for(unsigned long i = 0; i < mapx; i++){
+    for(unsigned long ii = 0; ii < mapy; ii++){
+        int source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
         SDL_Rect src_rect = {source_x, 0, 32, 32};
-        SDL_Rect dst_rect = {32 * i + offset_x - 32, 32 * ii + offset_y - 32, 32, 32};
+        int x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES
+        int y = tilesize * ii + offset_y;
+        SDL_Rect dst_rect = {x, y, 32, 32};
 
         TextureManager::render(tile_types[game_map[i][ii].type].texture, src_rect, dst_rect);
         }

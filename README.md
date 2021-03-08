@@ -23,3 +23,4 @@ make
 ~~~
 
 You don't *have* to use clang, but other compilers are not tested.
+q
