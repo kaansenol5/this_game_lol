@@ -56,20 +56,16 @@ void Map::scroll(int x, int y){
     scrolled_y = true;
 
   }
-  Game::EntityRegistry.view<TransformComponent>().each([x, y](auto entity, auto &transform_comp){
-    if(!Game::EntityRegistry.has<Player>(entity)){
-      transform_comp.move(x,y,false);
-    }
-  });
+
 }
 
 
 void Map::render(){
-  unsigned long mapx = game_map.size(); // GETS MAP X SIZE
-  unsigned long mapy = game_map[1].size(); // MAP Y SIZE
   int tile_real_size = config["tile_real_size"];
-  for(unsigned long i = 0; i < mapx; i++){
-    for(unsigned long ii = 0; ii < mapy; ii++){
+  int roffset_x = -1*offset_x/32;
+  int roffset_y = -1*offset_y/32;
+  for(long i = roffset_x; i < offset_x + Game::Width; i++){
+    for(long ii = roffset_y; ii < offset_y + Game::Width; ii++){
         int source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
         SDL_Rect src_rect = {source_x, 0, tile_real_size, tile_real_size};
         int x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES
