@@ -2,19 +2,17 @@
 #include <iostream>
 #include "../Game.hpp"
 
-NPC_Component::NPC_Component(unsigned short type)
+NPC_Component::NPC_Component(std::string type)
 :type(type){
   std::cout << "initialized an npc" << std::endl;
 }
 
 void NPC_Component::update(TransformComponent& self, TransformComponent& player){
-  switch (type) {
-    case NPC_ENEMY:
-      attackPlayer(self, player);
-      break;
-    case NPC_NEUTRAL:
-      randomMovement();
-      break;
+  if(type=="enemy"){
+    attackPlayer(self, player);
+  }
+  else if(type=="neutral"){
+    randomMovement();
   }
 }
 

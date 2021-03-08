@@ -1,3 +1,4 @@
+#pragma once
 #include "Transform.hpp"
 
 
@@ -6,10 +7,10 @@
 
 class NPC_Component{
 public:
-  NPC_Component(unsigned short type);
+  NPC_Component(std::string type);
   void update(TransformComponent& self, TransformComponent& player);
 private:
   void attackPlayer(TransformComponent& self, TransformComponent& player);
   void randomMovement();
-  unsigned short type;
+  std::string type;
 };

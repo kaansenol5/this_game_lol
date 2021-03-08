@@ -1,11 +1,9 @@
 #include "Game.hpp"
 #include <SDL2/SDL.h>
-#include "EntityComponents/Transform.hpp"
-#include "EntityComponents/Player.h"
 #include <iostream>
 #include "JsonLoader.hpp"
 #include <SDL2/SDL_image.h>
-#include "EntityComponents/NPC.hpp"
+
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -40,12 +38,11 @@ Game::Game(int window_position_x, int window_position_y){
   else{
     running = false;
   }
-  player = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(player, 500,100,32,32,"assets/sprites/wizard.png", 3,3, 32,32, true, 3,1, true, false);
-  EntityRegistry.emplace<Player>(player, true);
-  entt::entity enemy = EntityRegistry.create();
-  EntityRegistry.emplace<TransformComponent>(enemy, 100,500,32,32,"assets/sprites/wizard.png", 2,2, 32,32, true, 3,1, true, false);
-  EntityRegistry.emplace<NPC_Component>(enemy, NPC_ENEMY);
+  objects_manager = new GameObjectManager;
+  objects_manager->spawn(0, 300, 300);
+  objects_manager->spawn(1, 600, 600);
+
+
   map = new Map;
 }
 
@@ -54,19 +51,15 @@ void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
   map->render();
 
-
-  EntityRegistry.view<TransformComponent>().each([](auto entity, auto &transform_comp){
-    transform_comp.render();
-  });
-
-  EntityRegistry.group<NPC_Component, TransformComponent>().each([](auto entity, auto &npc_comp, auto &transform_comp){
-    npc_comp.update(transform_comp, EntityRegistry.get<TransformComponent>(player));
-  });
+  objects_manager->render_all();
+  objects_manager->update();
 
   map->scrolled_x = false;
   map->scrolled_y = false;
   SDL_RenderPresent(renderer);
 }
+
+
 
 bool Game::check_running(){
   return running;

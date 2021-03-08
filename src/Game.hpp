@@ -2,6 +2,7 @@
 #include "include/entt.hpp"
 #include <SDL2/SDL.h>
 #include "Map.hpp"
+#include "GameObjectManager.hpp"
 //entt
 //use json
 
@@ -22,5 +23,5 @@ private:
   char* title;
   bool running;
   SDL_Window* window;
-  void RandomEnemySpawning();
+  GameObjectManager* objects_manager;
 };

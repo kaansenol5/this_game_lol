@@ -1,10 +1,11 @@
+#pragma once
 #include "Transform.hpp"
 #include "../TextureManager.hpp"
 #include "../Game.hpp"
 #include <iostream>
-TransformComponent::TransformComponent(int x, int y, int width, int height, std::string texture_file, int speed_x, int speed_y, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls)
-:  base_speed_x(speed_x), base_speed_y(speed_y), real_w(real_w), real_h(real_h), animated(animated), sprite_amnt_x(sprite_amnt_x), sprite_amnt_y(sprite_amnt_y), x_scrolls(x_scrolls), y_scrolls(y_scrolls){
-  texture = TextureManager::load_texture(texture_file.c_str());
+TransformComponent::TransformComponent(int x, int y, int width, int height, SDL_Texture* texture, int speed_x, int speed_y, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls)
+:  base_speed_x(speed_x), base_speed_y(speed_y),texture(texture), real_w(real_w), real_h(real_h), animated(animated), sprite_amnt_x(sprite_amnt_x), sprite_amnt_y(sprite_amnt_y), x_scrolls(x_scrolls), y_scrolls(y_scrolls){
+
   src_rect = {0,0,real_w, real_h};
   dst_rect = {x, y, width, height};
   movement_speed_x = base_speed_x;

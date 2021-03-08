@@ -3,7 +3,7 @@
 #include <string>
 class TransformComponent{
 public:
-  TransformComponent(int x, int y, int width, int height, std::string texture_file, int speed_x, int speed_y, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls);
+  TransformComponent(int x, int y, int width, int height, SDL_Texture* texture, int speed_x, int speed_y, int real_w, int real_h, bool animated, int sprite_amnt_x, int sprite_amnt_y, bool x_scrolls, bool y_scrolls);
   ~TransformComponent();
   void render();
   void animate_sprites();
