@@ -19,9 +19,9 @@ public:
   void updateFrame(int i);
   bool check_running();
   static Map* map;
+  static GameObjectManager* objects_manager;
 private:
   char* title;
   bool running;
   SDL_Window* window;
-  GameObjectManager* objects_manager;
 };

@@ -11,6 +11,7 @@ SDL_Renderer* Game::renderer = nullptr;
 entt::registry Game::EntityRegistry = entt::registry();
 entt::entity Game::player = entt::null;
 Map* Game::map = nullptr;
+GameObjectManager* Game::objects_manager = nullptr;
 
 Game::Game(int window_position_x, int window_position_y){
   if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
