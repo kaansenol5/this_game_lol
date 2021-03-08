@@ -52,20 +52,19 @@ Game::Game(int window_position_x, int window_position_y){
 
 void Game::updateFrame(int i){
   SDL_RenderClear(renderer);
-  auto renderable = EntityRegistry.view<TransformComponent>();
   map->render();
 
 
-  for(auto entity : renderable){
-    TransformComponent &Transform = renderable.get<TransformComponent>(entity);
-    Transform.render();
-  }
-  auto npcs = EntityRegistry.group<NPC_Component, TransformComponent>();
-  for(auto npc : npcs){
-    NPC_Component &npc_comp = npcs.get<NPC_Component>(npc);
-    TransformComponent &transform_comp = npcs.get<TransformComponent>(npc);
+  EntityRegistry.view<TransformComponent>().each([](auto entity, auto &transform_comp){
+    transform_comp.render();
+  });
+
+  EntityRegistry.group<NPC_Component, TransformComponent>().each([](auto entity, auto &npc_comp, auto &transform_comp){
     npc_comp.update(transform_comp, EntityRegistry.get<TransformComponent>(player));
-  }
+  });
+
+  map->scrolled_x = false;
+  map->scrolled_y = false;
   SDL_RenderPresent(renderer);
 }
 

@@ -7,7 +7,7 @@ public:
   ~TransformComponent();
   void render();
   void animate_sprites();
-  void move(int x_diff, int y_diff);
+  void move(int x_diff, int y_diff, bool withSpeed);
   SDL_Rect dst_rect;
   int base_speed_x;
   int base_speed_y;

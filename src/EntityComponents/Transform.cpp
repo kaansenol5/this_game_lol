@@ -45,7 +45,13 @@ void TransformComponent::animate_sprites(){
   }
 }
 
-void TransformComponent::move(int x_diff, int y_diff){
-  dst_rect.x += x_diff*movement_speed_x;
-  dst_rect.y += y_diff*movement_speed_y;
+void TransformComponent::move(int x_diff, int y_diff, bool withSpeed){
+  if(withSpeed){
+    dst_rect.x += x_diff*movement_speed_x;
+    dst_rect.y += y_diff*movement_speed_y;
+  }
+  else{
+    dst_rect.x += x_diff;
+    dst_rect.y += y_diff;
+  }
 }

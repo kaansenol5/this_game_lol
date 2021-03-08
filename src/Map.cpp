@@ -1,5 +1,7 @@
 #include "Map.hpp"
 #include "TextureManager.hpp"
+#include "EntityComponents/Transform.hpp"
+#include "EntityComponents/Player.h"
 #include <iostream>
 #include <string>
 
@@ -44,27 +46,35 @@ void Map::RandomGeneration(){
 
 }
 void Map::scroll(int x, int y){
-  if(offset_x+x <= 0 && offset_x+x < config["map_size_x"]){
+  if(offset_x+x <= 0 && offset_x+x < config["map_size_x"] && x!=0){
     offset_x += x;
+    scrolled_x = true;
 
   }
-  if(offset_y+y <= 0 && offset_y+y < config["map_size_y"]){
+  if(offset_y+y <= 0 && offset_y+y < config["map_size_y"] && y!=0){
     offset_y += y;
+    scrolled_y = true;
 
   }
+  Game::EntityRegistry.view<TransformComponent>().each([x, y](auto entity, auto &transform_comp){
+    if(!Game::EntityRegistry.has<Player>(entity)){
+      transform_comp.move(x,y,false);
+    }
+  });
 }
 
 
 void Map::render(){
   unsigned long mapx = game_map.size(); // GETS MAP X SIZE
   unsigned long mapy = game_map[1].size(); // MAP Y SIZE
+  int tile_real_size = config["tile_real_size"];
   for(unsigned long i = 0; i < mapx; i++){
     for(unsigned long ii = 0; ii < mapy; ii++){
         int source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
-        SDL_Rect src_rect = {source_x, 0, 32, 32};
+        SDL_Rect src_rect = {source_x, 0, tile_real_size, tile_real_size};
         int x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES
         int y = tilesize * ii + offset_y;
-        SDL_Rect dst_rect = {x, y, 32, 32};
+        SDL_Rect dst_rect = {x, y, tilesize, tilesize};
 
         TextureManager::render(tile_types[game_map[i][ii].type].texture, src_rect, dst_rect);
         }
