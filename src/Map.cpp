@@ -42,12 +42,12 @@ void Map::init_empty_map(){
   }
 }
 
-void Map::partial_map_gen(int startx, int starty){
+void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
   int i = startx;
   int ii = starty;
   unsigned long mapsizex = (int)config["map_size_x"];
-  int endx = i + mapsizex/12;
-  int endy = ii + mapsizex/12;
+  int endx = i + mapsizex/avaliable_threads;
+  int endy = ii + mapsizex/avaliable_threads;
   int amount_of_types = (int)config["amount_of_types"];
   using namespace std::chrono_literals;
   while(i<endx){
@@ -74,15 +74,17 @@ void Map::RandomGeneration(){
   unsigned long mapsizex = (int)config["map_size_x"];
   std::cout << "map generation begin" << std::endl;
   //srand((int)time(0));
+  unsigned int avaliable_threads = std::thread::hardware_concurrency();
+  std::cout << avaliable_threads << std::endl;
   while(i<mapsizex){
     unsigned long ii = 0;
-    std::thread(&Map::partial_map_gen ,this,i,i).detach();
+    std::thread(&Map::partial_map_gen ,this,i,i,avaliable_threads).detach();
     while(ii<mapsizex){
       //std::thread(&Map::partial_map_gen ,this,i,ii).detach();
     //  std::cout << "thread call" <<std::endl;
-      ii+=mapsizex/12;
+      ii+=mapsizex/avaliable_threads;
     }
-    i+=mapsizex/12;
+    i+=mapsizex/avaliable_threads;
     //std::cout << i/10000 << std::endl;
   }
   std::cout << "all map gen threads started" << std::endl;
