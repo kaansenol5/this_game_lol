@@ -17,7 +17,7 @@ void NPC_Component::update(TransformComponent& self, TransformComponent& player)
 }
 
 void NPC_Component::attackPlayer(TransformComponent& self, TransformComponent& player){
-  if(self.dst_rect.x < Game::Width && self.dst_rect.x > 0 - self.dst_rect.w  && self.dst_rect.y < Game::Height && self.dst_rect.y > 0 - self.dst_rect.h){
+  if(self.dst_rect.x < Game::Width + 300 && self.dst_rect.x > -300 - self.dst_rect.w  && self.dst_rect.y < Game::Height + 300 && self.dst_rect.y > -300 - self.dst_rect.h){
     if(self.dst_rect.x + self.dst_rect.w > player.dst_rect.x){
       self.move(-1,0, true);
     }

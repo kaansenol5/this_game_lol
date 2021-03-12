@@ -2,6 +2,7 @@
 #include "EventHandler.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <thread>
 
 int main(){
   srand((unsigned) time(NULL));
@@ -16,10 +17,10 @@ int main(){
   int i = 0;
   while (game->check_running()){
     frameStart = SDL_GetTicks();
-
-    eventhandler->HandleEvents();
-    game->updateFrame(i);
+    game->update(i);
+    game->render();
     i++;
+    eventhandler->HandleEvents();
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
       SDL_Delay(frameDelay - frameTime);

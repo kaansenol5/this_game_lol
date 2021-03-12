@@ -11,7 +11,7 @@ struct Tile{
 
 struct TileType{
   SDL_Texture* texture;
-  int variations;
+  unsigned char variations;
 };
 
 
@@ -19,13 +19,14 @@ class Map{
 public:
   Map();
   ~Map();
-  void RandomGeneration();
   void render();
   void scroll(int x, int y);
   bool scrolled_x = false;
   bool scrolled_y = false;
 private:
+  void random_generation();
   void init_empty_map();
+  void generate_land_resources();
   int offset_x = 0;
   int offset_y = 0;
   int tilesize;

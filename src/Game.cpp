@@ -3,7 +3,7 @@
 #include <iostream>
 #include "JsonLoader.hpp"
 #include <SDL2/SDL_image.h>
-
+#include <thread>
 
 int Game::Width = 0;
 int Game::Height = 0;
@@ -41,23 +41,25 @@ Game::Game(int window_position_x, int window_position_y){
   }
   objects_manager = new GameObjectManager;
   objects_manager->spawn(0, 300, 300);
-  objects_manager->spawn(1, 600, 600);
-
 
   map = new Map;
 }
 
 
-void Game::updateFrame(int i){
+void Game::render(){
   SDL_RenderClear(renderer);
   map->render();
-
   objects_manager->render_all();
-  objects_manager->update();
+  SDL_RenderPresent(renderer);
+}
 
+void Game::update(int i){
+  objects_manager->update();
+  if(i%600 == 0){
+    objects_manager->enemy_spawn_random();
+  }
   map->scrolled_x = false;
   map->scrolled_y = false;
-  SDL_RenderPresent(renderer);
 }
 
 

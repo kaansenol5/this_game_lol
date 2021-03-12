@@ -1,7 +1,8 @@
 {
-  "character_variation_amount":2,
+  "character_variation_amount":4,
   "enemy_variation_amount":1,
   "neutral_variation_amount":0,
+  "landresource_variation_amount":2,
   "0":{
     "type":"player",
     "sprite":"assets/sprites/player.png",
@@ -11,6 +12,8 @@
     "movement_speed_y":5,
     "real_sprite_width":32,
     "real_sprite_height":32,
+    "attack_sprite":"assets/sprites/fireball.png",
+    "attack_type":"ranged",
     "animated":true,
     "x_animated":true,
     "y_animated":false,
@@ -28,6 +31,8 @@
     "movement_speed_y":2,
     "real_sprite_width":32,
     "real_sprite_height":32,
+    "attack_sprite":"assets/sprites/fireball.png",
+    "attack_type":"ranged",
     "animated":true,
     "x_animated":true,
     "y_animated":false,
@@ -35,5 +40,39 @@
     "y_animations":1,
     "is_npc":true,
     "npc_type":"enemy"
+  },
+  "2":{
+    "type":"landresource",
+    "sprite":"assets/land_resources/rock.png",
+    "width":64,
+    "height":64,
+    "movement_speed_x":0,
+    "movement_speed_y":0,
+    "real_sprite_width":32,
+    "real_sprite_height":32,
+    "animated":false,
+    "x_animated":false,
+    "y_animated":false,
+    "x_animations":1,
+    "y_animations":1,
+    "is_npc":false,
+    "npc_type":"none"
+  },
+  "3":{
+    "type":"landresource",
+    "sprite":"assets/land_resources/tree.png",
+    "width":64,
+    "height":128,
+    "movement_speed_x":0,
+    "movement_speed_y":0,
+    "real_sprite_width":32,
+    "real_sprite_height":32,
+    "animated":false,
+    "x_animated":false,
+    "y_animated":false,
+    "x_animations":1,
+    "y_animations":1,
+    "is_npc":false,
+    "npc_type":"none"
   }
 }

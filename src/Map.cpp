@@ -17,10 +17,12 @@ Map::Map(){
     tilesize = (int)config["tilesize"];
     tile_types.push_back(tiletype);
   }
-  auto curtime = time(NULL);
+  auto start_time = time(NULL);
   init_empty_map();
-  std::cout << "mapinit takes " << curtime - time(NULL) << " secs" << std::endl;
-  RandomGeneration();
+  std::cout << "mapinit takes " << time(NULL) - start_time << " secs" << std::endl;
+  random_generation();
+  generate_land_resources();
+  //std::thread(&Map::generate_land_resources, this).detach();
 
 }
 
@@ -43,6 +45,8 @@ void Map::init_empty_map(){
 }
 
 void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
+  std::cout << "partial map generation thread started" << std::endl;
+  unsigned start_time = time(NULL);
   int i = startx;
   int ii = starty;
   unsigned long mapsizex = (int)config["map_size_x"];
@@ -59,17 +63,28 @@ void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
       Tile tile = {val1, val2};
       game_map[i][ii] = tile;
       ii++;
-      //std::this_thread::sleep_for(1ns);
+    //  std::this_thread::sleep_for(1ns);
 
     }
     i++;
   }
+  std::cout << "partial map generation thread took " << time(NULL) - start_time << "seconds" << std::endl;
   std::cout << "generated map between x: " << startx << " - " << endx << " y: " << starty << " - " << endy << std::endl;
   return;
 }
 
+void Map::generate_land_resources(){
+  std::cout << "bbb" << std::endl;
+  unsigned long mapsize = (int)config["map_size_x"];
+  unsigned short resource_amount = config["resource_amount"];
+  std::cout << resource_amount << std::endl;
+  for(unsigned short i = 0; i < resource_amount; i++){
+    Game::objects_manager->landresource_spawn_random(mapsize);
+  }
+  std::cout << "land resources generated" << std::endl;
+}
 
-void Map::RandomGeneration(){
+void Map::random_generation(){
   unsigned long i = 0;
   unsigned long mapsizex = (int)config["map_size_x"];
   std::cout << "map generation begin" << std::endl;
@@ -114,10 +129,10 @@ void Map::render(){
   int roffset_y = -1*offset_y/32;
   for(long i = roffset_x; i < roffset_x + Game::Width; i++){
     for(long ii = roffset_y; ii < roffset_y + Game::Height; ii++){
-        int source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
+        short source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
         SDL_Rect src_rect = {source_x, 0, tile_real_size, tile_real_size};
-        int x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES
-        int y = tilesize * ii + offset_y;
+        short x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES
+        short y = tilesize * ii + offset_y;
         SDL_Rect dst_rect = {x, y, tilesize, tilesize};
 
         TextureManager::render(tile_types[game_map[i][ii].type].texture, src_rect, dst_rect);

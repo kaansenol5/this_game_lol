@@ -16,7 +16,8 @@ public:
   static SDL_Renderer* renderer;
   static entt::registry EntityRegistry;
   static entt::entity player;
-  void updateFrame(int i);
+  void render();
+  void update(int i);
   bool check_running();
   static Map* map;
   static GameObjectManager* objects_manager;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Transform.hpp"
+#include "Hitbox.h"
 #include "../TextureManager.hpp"
 #include "../Game.hpp"
 #include <iostream>
@@ -20,9 +21,11 @@ void TransformComponent::render(){
   if(animated){
     animate_sprites();
   }
+  /*
   SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
   SDL_RenderDrawRect(Game::renderer, &dst_rect);
   SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
+  */
   TextureManager::render(texture, src_rect, dst_rect);
 }
 
@@ -48,8 +51,22 @@ void TransformComponent::animate_sprites(){
 
 void TransformComponent::move(int x_diff, int y_diff, bool withSpeed){
   if(withSpeed){
-    dst_rect.x += x_diff*movement_speed_x;
-    dst_rect.y += y_diff*movement_speed_y;
+    bool allow_x=true;
+    bool allow_y=true;
+    Game::EntityRegistry.view<Hitbox, TransformComponent>().each([this, x_diff, y_diff, &allow_x, &allow_y](auto ent, auto &hitbox, auto &transform_comp){
+      if(((dst_rect.x + x_diff*movement_speed_x > transform_comp.dst_rect.x && dst_rect.x + x_diff*movement_speed_x < transform_comp.dst_rect.x + transform_comp.dst_rect.w) && (dst_rect.y > transform_comp.dst_rect.y && dst_rect.y < transform_comp.dst_rect.y + transform_comp.dst_rect.h))){
+        allow_x=false;
+      }
+      else if(((dst_rect.y + y_diff*movement_speed_y > transform_comp.dst_rect.y && dst_rect.y + y_diff*movement_speed_y < transform_comp.dst_rect.y + transform_comp.dst_rect.h) && (dst_rect.x > transform_comp.dst_rect.x && dst_rect.x < transform_comp.dst_rect.x + transform_comp.dst_rect.w))){
+        allow_y=false;
+      }
+
+    });
+    if(allow_x)
+      dst_rect.x += x_diff*movement_speed_x;
+    if(allow_y)
+      dst_rect.y += y_diff*movement_speed_y;
+
   }
   else{
     dst_rect.x += x_diff;

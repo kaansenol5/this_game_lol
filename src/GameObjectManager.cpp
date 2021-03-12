@@ -1,6 +1,7 @@
 #include "GameObjectManager.hpp"
 #include "TextureManager.hpp"
 #include "EntityComponents/Player.h"
+#include "EntityComponents/Hitbox.h"
 #include <string>
 
 /*
@@ -29,10 +30,18 @@ void GameObjectManager::spawn(int tag, int x, int y){
   if(current_conf["type"] == "player"){
     Game::EntityRegistry.emplace<Player>(spawned);
   }
+  if(current_conf["type"] == "landresource"){
+   Game::EntityRegistry.emplace<Hitbox>(spawned);
+  }
 }
 
 void GameObjectManager::enemy_spawn_random(){
-  spawn(rand()%(int)config["enemy_variation_amount"]+1,rand()%Game::Width, rand()%Game::Height);
+  spawn(rand()%(int)config["enemy_variation_amount"]+1, (rand()%Game::Width+200)-200, (rand()%Game::Height+200)-200);
+}
+
+void GameObjectManager::landresource_spawn_random(int mapsize){
+  int entity_type = (rand()%(int)config["landresource_variation_amount"])+(int)config["enemy_variation_amount"]+(int)config["neutral_variation_amount"]+1;
+  spawn(entity_type, rand() % mapsize, rand()% mapsize);
 }
 
 void GameObjectManager::update(){
@@ -40,7 +49,12 @@ void GameObjectManager::update(){
     Game::EntityRegistry.view<Player>().each([&npc_comp, &transform_comp](auto player, auto &player_comp){
       npc_comp.update(transform_comp, Game::EntityRegistry.get<TransformComponent>(player));
     });
-  });
+
+    if(transform_comp.dst_rect.x + Game::Width < 500 || transform_comp.dst_rect.y + Game::Height < 500 || transform_comp.dst_rect.x + Game::Width > 2*Game::Width+500 || transform_comp.dst_rect.y + Game::Height > 2*Game::Height+500){
+      Game::EntityRegistry.destroy(entity);
+      std::cout << "killed an innocent npc" << std::endl;
+    }
+    });
 }
 
 void GameObjectManager::render_all(){

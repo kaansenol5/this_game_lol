@@ -13,6 +13,7 @@ public:
   void move_all(int x, int y);
   void enemy_spawn_random();
   void spawn(int tag, int x, int y);
+  void landresource_spawn_random(int mapsize);
 private:
   json config;
   std::vector<SDL_Texture*> textures;
