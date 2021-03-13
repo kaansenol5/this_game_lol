@@ -5,8 +5,7 @@
 #include <string>
 
 /*
-THIS READS characters.json TO GET ALL INFO ABOUT EVERYTHING RENDERED EXCEPT MAP TILES IN THE GAME
-THE IDENTIFIER OF THE PLAYER IN JSON FILE IS ALWAYS 0
+THE IDENTIFIER OF THE PLAYER IN JSON FILE IS ALWAYS 0, if it isnt, things will break.
 */
 
 
@@ -39,9 +38,13 @@ void GameObjectManager::enemy_spawn_random(){
   spawn(rand()%(int)config["enemy_variation_amount"]+1, (rand()%Game::Width+200)-200, (rand()%Game::Height+200)-200);
 }
 
-void GameObjectManager::landresource_spawn_random(int mapsize){
+void GameObjectManager::landresource_spawn_random(int mapsize, int tilesize){
   int entity_type = (rand()%(int)config["landresource_variation_amount"])+(int)config["enemy_variation_amount"]+(int)config["neutral_variation_amount"]+1;
-  spawn(entity_type, rand() % mapsize, rand()% mapsize);
+  int x = rand() % mapsize;
+  int y = rand()% mapsize;
+  x -= x % tilesize;
+  y -= y % tilesize;
+  spawn(entity_type, x, y);
 }
 
 void GameObjectManager::update(){
