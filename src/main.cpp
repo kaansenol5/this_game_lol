@@ -14,7 +14,7 @@ int main(){
   const int frameDelay = 1000 / FPS;
   Uint32 frameStart;
   int frameTime;
-  int i = 0;
+  unsigned long long i = 0;
   while (game->check_running()){
     frameStart = SDL_GetTicks();
     game->update(i);

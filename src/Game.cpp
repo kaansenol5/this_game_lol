@@ -5,8 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <thread>
 
-int Game::Width = 0;
-int Game::Height = 0;
+unsigned short Game::Width = 0;
+unsigned short Game::Height = 0;
 SDL_Renderer* Game::renderer = nullptr;
 entt::registry Game::EntityRegistry = entt::registry();
 entt::entity Game::player = entt::null;
@@ -55,7 +55,7 @@ void Game::render(){
   SDL_RenderPresent(renderer);
 }
 
-void Game::update(int i){
+void Game::update(unsigned long long i){
   objects_manager->update();
   if(i%600 == 0){
     objects_manager->enemy_spawn_random();

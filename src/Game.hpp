@@ -11,13 +11,13 @@ class Game{
 public:
   Game(int window_position_x, int window_position_y);
   ~Game();
-  static int Width;
-  static int Height;
+  static unsigned short Width;
+  static unsigned short Height;
   static SDL_Renderer* renderer;
   static entt::registry EntityRegistry;
   static entt::entity player;
   void render();
-  void update(int i);
+  void update(unsigned long long i);
   bool check_running();
   static Map* map;
   static GameObjectManager* objects_manager;
