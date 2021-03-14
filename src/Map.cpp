@@ -18,6 +18,8 @@ Map::Map(){
     tile_types.push_back(tiletype);
   }
   auto start_time = time(NULL);
+  mapsize = config["map_size"];
+  mapsize = mapsize -= mapsize % std::thread::hardware_concurrency(); //makes sure that mapsize is dividable by the amount of threads present
   init_empty_map();
   std::cout << "mapinit takes " << time(NULL) - start_time << " secs" << std::endl;
   random_generation();
@@ -28,13 +30,12 @@ Map::Map(){
 
 
 void Map::init_empty_map(){
-  unsigned long mapsizex = (int)config["map_size"];
   unsigned long i = 0;
   unsigned long ii = 0;
-  while(i<mapsizex){
+  while(i<mapsize){
     i++;
     std::vector<Tile> new_vec;
-    while(ii<mapsizex){
+    while(ii<mapsize){
       ii++;
       Tile tile = {0, 0};
       new_vec.push_back(tile);
@@ -46,13 +47,12 @@ void Map::init_empty_map(){
 }
 
 void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
-  std::cout << "partial map generation thread started" << std::endl;
+  std::cout << "partial map generation thread started id: " << std::thread::id() << std::endl;
   unsigned start_time = time(NULL);
   int i = startx;
   int ii = starty;
-  unsigned long mapsizex = (int)config["map_size"];
-  int endx = i + mapsizex/avaliable_threads;
-  int endy = ii + mapsizex/avaliable_threads;
+  int endx = i + mapsize/avaliable_threads;
+  int endy = ii + mapsize/avaliable_threads;
   int amount_of_types = (int)config["amount_of_types"];
   using namespace std::chrono_literals;
   while(i<endx-1){
@@ -76,7 +76,6 @@ void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
 
 void Map::generate_land_resources(){
   std::cout << "bbb" << std::endl;
-  unsigned long mapsize = (int)config["map_size"];
   unsigned short resource_amount = config["resource_amount"];
   std::cout << resource_amount << std::endl;
   for(unsigned short i = 0; i < resource_amount; i++){
@@ -87,36 +86,35 @@ void Map::generate_land_resources(){
 
 void Map::random_generation(){
   unsigned long i = 0;
-  unsigned long mapsizex = (int)config["map_size"];
   std::cout << "map generation begin" << std::endl;
   //srand((int)time(0));
   unsigned int avaliable_threads = std::thread::hardware_concurrency();
   std::cout << avaliable_threads << std::endl;
   std::vector<std::thread> threads;
-  while(i<mapsizex){
+  while(i<mapsize){
     unsigned long ii = 0;
 
     std::thread(&Map::partial_map_gen ,this,i,i,avaliable_threads).detach();
-    while(ii<mapsizex){
+    while(ii<mapsize){
       //std::thread(&Map::partial_map_gen ,this,i,ii).detach();
     //  std::cout << "thread call" <<std::endl;
-      ii+=mapsizex/avaliable_threads;
+      ii+=mapsize/avaliable_threads;
     }
-    i+=mapsizex/avaliable_threads;
+    i+=mapsize/avaliable_threads;
     //std::cout << i/10000 << std::endl;
   }
   std::cout << "all map gen threads started" << std::endl;
 
 }
 void Map::scroll(int x, int y){
-  if(offset_x+x <= 0 && offset_x+x < config["map_size"] && x!=0){
+  if(offset_x+x <= 0 && offset_x+x < mapsize && x!=0){
     offset_x += x;
     scrolled_x = true;
     Game::objects_manager->move_all(x, y);
 
 
   }
-  if(offset_y+y <= 0 && offset_y+y < config["map_size_y"] && y!=0){
+  if(offset_y+y <= 0 && offset_y+y < mapsize && y!=0){
     offset_y += y;
     scrolled_y = true;
     Game::objects_manager->move_all(x, y);

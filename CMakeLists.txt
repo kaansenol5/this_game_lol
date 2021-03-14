@@ -14,6 +14,7 @@ add_executable(
   src/Map.cpp
   src/EventHandler.cpp
   src/GameObjectManager.cpp
+  src/SceneManager.cpp
   src/EntityComponents/Transform.cpp
   src/EntityComponents/NPC.cpp
 )

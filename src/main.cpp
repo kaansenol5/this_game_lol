@@ -1,24 +1,23 @@
-#include "Game.hpp"
 #include "EventHandler.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <thread>
+#include "SceneManager.hpp"
 
 int main(){
   srand((unsigned) time(NULL));
-  Game* game;
   EventHandler* eventhandler;
   eventhandler = new EventHandler;
-  game = new Game(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED);
+  SceneManager* scenemanager;
+  scenemanager = new SceneManager;
   const int FPS = 60;
   const int frameDelay = 1000 / FPS;
   Uint32 frameStart;
   int frameTime;
   unsigned long long i = 0;
-  while (game->check_running()){
+  while (scenemanager->check_running()){
     frameStart = SDL_GetTicks();
-    game->update(i);
-    game->render();
+    scenemanager->update(i);
     i++;
     eventhandler->HandleEvents();
     frameTime = SDL_GetTicks() - frameStart;

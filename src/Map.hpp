@@ -30,6 +30,7 @@ private:
   void init_empty_map();
   void generate_land_resources();
   int tilesize;
+  int mapsize;
   json config;
   void partial_map_gen(int startx, int starty, int avaliable_threads);
   std::vector<TileType> tile_types;

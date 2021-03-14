@@ -2,8 +2,8 @@
   "tilesize":32,
   "tile_real_size":32,
   "amount_of_types":2,
-  "map_size":6000,
-  "resource_amount":600,
+  "map_size":32000,
+  "resource_amount":3200,
   "0":{
     "name":"stone",
     "asset":"assets/tiles/stone.png",

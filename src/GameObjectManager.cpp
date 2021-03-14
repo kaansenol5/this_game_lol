@@ -55,7 +55,6 @@ void GameObjectManager::update(){
 
     if(transform_comp.dst_rect.x + Game::Width < 500 || transform_comp.dst_rect.y + Game::Height < 500 || transform_comp.dst_rect.x + Game::Width > 2*Game::Width+500 || transform_comp.dst_rect.y + Game::Height > 2*Game::Height+500){
       Game::EntityRegistry.destroy(entity);
-      std::cout << "killed an innocent npc" << std::endl;
     }
     });
 }

@@ -13,38 +13,18 @@ entt::entity Game::player = entt::null;
 Map* Game::map = nullptr;
 GameObjectManager* Game::objects_manager = nullptr;
 
-Game::Game(int window_position_x, int window_position_y){
-  if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
-    std::cout << "SDL INIT FAILED errorcode: " << SDL_GetError() << std::endl;
-    exit(1);
-  }
-  IMG_Init(IMG_INIT_PNG);
-  auto j = JsonLoader::load((char*)"config/game_config.json");
-
-  Width=j["width"];
-  Height=j["height"];
-  std::string name = j["name"];
-  window = SDL_CreateWindow(name.c_str(), window_position_x, window_position_y, Width, Height, 0);
-  if(!window){
-    std::cout << "Window not created " << SDL_GetError() << std::endl;
-  }
-  renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-  if(!renderer){
-    std::cout << "Renderer not created " << SDL_GetError() << std::endl;
-  }
+Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height)
+: window(window){
+  Game::Width = Width;
+  Game::Height = Height;
+  Game::renderer = renderer;
   SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
-  if(window&&renderer){
-    running = true;
-  }
-  else{
-    running = false;
-  }
+
   objects_manager = new GameObjectManager;
-  objects_manager->spawn(0, 300, 300); //SPAWN "THING" WITH TAG 0, AT X 300 Y 300, 0 IS ALWAYS PLAYER.
+  objects_manager->spawn(0, rand()%(Width-200)+200, (rand()%Height-200)+200); //SPAWN "THING" WITH TAG 0
   map = new Map;
   //map->offset_x = 6000;
   //map->offset_y = 6000;
-
 }
 
 

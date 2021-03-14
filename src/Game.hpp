@@ -9,7 +9,7 @@
 
 class Game{
 public:
-  Game(int window_position_x, int window_position_y);
+  Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height);
   ~Game();
   static unsigned short Width;
   static unsigned short Height;
