@@ -40,7 +40,7 @@ Game::Game(int window_position_x, int window_position_y){
     running = false;
   }
   objects_manager = new GameObjectManager;
-  objects_manager->spawn(0, 300, 300);
+  objects_manager->spawn(0, 300, 300); //SPAWN "THING" WITH TAG 0, AT X 300 Y 300, 0 IS ALWAYS PLAYER.
   map = new Map;
   //map->offset_x = 6000;
   //map->offset_y = 6000;
