@@ -42,7 +42,7 @@ Game::Game(int window_position_x, int window_position_y){
   objects_manager = new GameObjectManager;
   objects_manager->spawn(0, 300, 300);
   map = new Map;
-//  map->offset_x = 6000;
+  //map->offset_x = 6000;
   //map->offset_y = 6000;
 
 }
