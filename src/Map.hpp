@@ -12,6 +12,7 @@ struct Tile{
 struct TileType{
   SDL_Texture* texture;
   unsigned char variations;
+  unsigned char max_repeat;
 };
 
 
@@ -28,11 +29,11 @@ public:
 private:
   void random_generation();
   void init_empty_map();
-  void generate_land_resources();
   int tilesize;
   int mapsize;
+  int structures_to_generate;
   json config;
-  void partial_map_gen(int startx, int starty, int avaliable_threads);
+  void partial_map_gen(int generate_amount);
   std::vector<TileType> tile_types;
   std::vector<std::vector<Tile>> game_map; //this will be either vector or very big number
 //  std::vector<std::vector<int>> source_rect_map;

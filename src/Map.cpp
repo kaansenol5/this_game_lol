@@ -11,20 +11,22 @@ Map::Map(){
   json c = JsonLoader::load("config/map_config.json");
   config = c;
   int amount_of_types = config["amount_of_types"];
+  std::cout << amount_of_types << std::endl;
   for(int i = 0; i < amount_of_types; i++){
-    std::cout << amount_of_types << std::endl;
-    TileType tiletype = {TextureManager::load_texture(config[std::to_string(i)]["asset"]), config[std::to_string(i)]["variations"]};
+    std::cout << "aaa" << std::endl;
+    TileType tiletype = {TextureManager::load_texture(config[std::to_string(i)]["asset"]), config[std::to_string(i)]["variations"], config[std::to_string(i)]["max_repeat"]};
     tilesize = (int)config["tilesize"];
     tile_types.push_back(tiletype);
   }
   auto start_time = time(NULL);
+  structures_to_generate = config["structures_to_generate"];
   mapsize = config["map_size"];
   mapsize = mapsize -= mapsize % std::thread::hardware_concurrency(); //makes sure that mapsize is dividable by the amount of threads present
   init_empty_map();
   std::cout << "mapinit takes " << time(NULL) - start_time << " secs" << std::endl;
   random_generation();
   //generate_land_resources();
-  std::thread(&Map::generate_land_resources, this).detach();
+
 
 }
 
@@ -46,61 +48,74 @@ void Map::init_empty_map(){
   }
 }
 
-void Map::partial_map_gen(int startx, int starty, int avaliable_threads){
+void Map::partial_map_gen(int generate_amount){
   std::cout << "partial map generation thread started id: " << std::thread::id() << std::endl;
   unsigned start_time = time(NULL);
-  int i = startx;
-  int ii = starty;
-  int endx = i + mapsize/avaliable_threads;
-  int endy = ii + mapsize/avaliable_threads;
   int amount_of_types = (int)config["amount_of_types"];
   using namespace std::chrono_literals;
-  while(i<endx-1){
-  //  std::cout << "aaaa" << std::endl;
-    int ii = starty;
-    while(ii<endy-1){
-      unsigned char val1 = rand() % amount_of_types;
-      unsigned char val2 = rand() % tile_types[val1].variations;
-      Tile tile = {val1, val2};
-      game_map[i][ii] = tile;
-      ii++;
-    //  std::this_thread::sleep_for(1ns);
+  std::cout << std::to_string(generate_amount) << std::endl;
+  int x = 0;
+  int y = 0;
+  unsigned char tile_type = rand()%amount_of_types;
+  int width = rand()%tile_types[tile_type].max_repeat;
+  int height = rand()%tile_types[tile_type].max_repeat;
 
+  for(int i = 0; i<generate_amount; i++){
+    if(rand()%2 == 1){
+      x += rand()%60 + 16;
     }
-    i++;
+    else{
+      y += rand()%60 + 16;
+    }
+    if(x + width > mapsize || y + height> mapsize){
+      return;
+    }
+
+    //std::cout << "aaaaa" << std::endl;
+
+
+    width -= width%2;
+    height -= height%2;
+    for(int i = x; i<width ; i++){
+      unsigned char variation = rand() % tile_types[tile_type].variations;
+      game_map[i][y] = {tile_type, variation};
+      for(int ii = y; ii<height ; ii++){
+        unsigned char variation = rand() % tile_types[tile_type].variations;
+        game_map[i][ii] = {tile_type, variation};
+      }
+    }
+
+    if(x>6){
+      for(int i = x-5; i<x ; i++){
+        unsigned char variation = rand() % tile_types[tile_type].variations;
+        game_map[i][y+height/2] = {tile_type, variation};
+        if(y>6){
+          for(int ii = y-5; ii<y ; ii++){
+            unsigned char variation = rand() % tile_types[tile_type].variations;
+            game_map[i+width/2][ii] = {tile_type, variation};
+          }
+        }
+      }
+    }
   }
-  std::cout << "partial map generation thread took " << time(NULL) - start_time << "seconds" << std::endl;
-  std::cout << "generated map between x: " << startx << " - " << endx << " y: " << starty << " - " << endy << std::endl;
-  return;
+  std::cout << "bye!" << std::endl;
 }
 
-void Map::generate_land_resources(){
-  std::cout << "bbb" << std::endl;
-  unsigned short resource_amount = config["resource_amount"];
-  std::cout << resource_amount << std::endl;
-  for(unsigned short i = 0; i < resource_amount; i++){
-    Game::objects_manager->landresource_spawn_random(mapsize, tilesize);
-  }
-  std::cout << "land resources generated" << std::endl;
-}
+
 
 void Map::random_generation(){
   unsigned long i = 0;
   std::cout << "map generation begin" << std::endl;
   //srand((int)time(0));
   unsigned int avaliable_threads = std::thread::hardware_concurrency();
-  std::cout << avaliable_threads << std::endl;
+  std::cout << avaliable_threads << " threads detected" << std::endl;
   std::vector<std::thread> threads;
-  while(i<mapsize){
+  int generator = structures_to_generate / avaliable_threads;
+  while(i<structures_to_generate){
     unsigned long ii = 0;
 
-    std::thread(&Map::partial_map_gen ,this,i,i,avaliable_threads).detach();
-    while(ii<mapsize){
-      //std::thread(&Map::partial_map_gen ,this,i,ii).detach();
-    //  std::cout << "thread call" <<std::endl;
-      ii+=mapsize/avaliable_threads;
-    }
-    i+=mapsize/avaliable_threads;
+    std::thread(&Map::partial_map_gen ,this, generator).detach();
+    i+=generator;
     //std::cout << i/10000 << std::endl;
   }
   std::cout << "all map gen threads started" << std::endl;
