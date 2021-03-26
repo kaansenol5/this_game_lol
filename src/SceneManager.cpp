@@ -1,15 +1,20 @@
 #include "SceneManager.hpp"
 #include <iostream>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "JsonLoader.hpp"
 #include "Game.hpp"
 
+SDL_Renderer* SceneManager::renderer = nullptr;
+
 SceneManager::SceneManager(){
+  current_scene_id = 0;
   if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
     std::cout << "SDL INIT FAILED errorcode: " << SDL_GetError() << std::endl;
     exit(1);
   }
   IMG_Init(IMG_INIT_PNG);
+  TTF_Init();
   auto j = JsonLoader::load((char*)"config/game_config.json");
   Width=j["width"];
   Height=j["height"];
@@ -24,12 +29,28 @@ SceneManager::SceneManager(){
     std::cout << "Renderer not created " << SDL_GetError() << std::endl;
     exit(1);
   }
+  SDL_RenderClear(renderer); //clear the screen
+  SDL_RenderPresent(renderer);
   running = true;
+  start_menu_scene = new StartMenu(window, renderer, current_scene_id, running);
   game_scene = new Game(window, renderer, Width, Height);
 
 }
 
+SceneManager::~SceneManager(){ // this should only be called by main.cpp after the loop ends, all scenes must set running to false when their destructor is called
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
+  std::cout << "Game quit, waiting." << std::endl;
+  std::cin.get();
+  exit(0);
+}
+
 void SceneManager::update(unsigned long long i){
-  game_scene->update(i);
-  game_scene->render();
+  if(current_scene_id == 0){
+    start_menu_scene -> updateFrame();
+  }
+  else if(current_scene_id == 1){
+    game_scene->update(i);
+    game_scene->render();
+  }
 }

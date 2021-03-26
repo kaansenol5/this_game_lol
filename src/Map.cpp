@@ -150,7 +150,7 @@ void Map::render(){
         short y = tilesize * ii + offset_y;
         SDL_Rect dst_rect = {x, y, tilesize, tilesize};
 
-        TextureManager::render(tile_types[game_map[i][ii].type].texture, src_rect, dst_rect);
+        TextureManager::render(tile_types[game_map[i][ii].type].texture, &src_rect, &dst_rect);
         }
     }
   }

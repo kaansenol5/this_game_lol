@@ -13,7 +13,6 @@ public:
   ~Game();
   static unsigned short Width;
   static unsigned short Height;
-  static SDL_Renderer* renderer;
   static entt::registry EntityRegistry;
   static entt::entity player;
   void render();
@@ -22,6 +21,7 @@ public:
   static Map* map;
   static GameObjectManager* objects_manager;
 private:
+  SDL_Renderer* renderer;
   char* title;
   bool running;
   SDL_Window* window;

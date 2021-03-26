@@ -7,18 +7,15 @@
 
 unsigned short Game::Width = 0;
 unsigned short Game::Height = 0;
-SDL_Renderer* Game::renderer = nullptr;
 entt::registry Game::EntityRegistry = entt::registry();
 entt::entity Game::player = entt::null;
 Map* Game::map = nullptr;
 GameObjectManager* Game::objects_manager = nullptr;
 
-Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height)
-: window(window){
+Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height) : renderer(renderer), window(window){
   Game::Width = Width;
   Game::Height = Height;
-  Game::renderer = renderer;
-  SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
+//  SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
 
   objects_manager = new GameObjectManager;
   objects_manager->spawn(0, rand()%(Width-200)+200, (rand()%Height-200)+200); //SPAWN "THING" WITH TAG 0

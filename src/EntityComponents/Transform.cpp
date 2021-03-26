@@ -26,7 +26,7 @@ void TransformComponent::render(){
   SDL_RenderDrawRect(Game::renderer, &dst_rect);
   SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
   */
-  TextureManager::render(texture, src_rect, dst_rect);
+  TextureManager::render(texture, &src_rect, &dst_rect);
 }
 
 void TransformComponent::animate_sprites(){

@@ -15,6 +15,7 @@ add_executable(
   src/EventHandler.cpp
   src/GameObjectManager.cpp
   src/SceneManager.cpp
+  src/StartMenu.cpp
   src/EntityComponents/Transform.cpp
   src/EntityComponents/NPC.cpp
 )

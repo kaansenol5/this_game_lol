@@ -25,4 +25,5 @@ int main(){
       SDL_Delay(frameDelay - frameTime);
     }
   }
+  delete scenemanager;
 }
