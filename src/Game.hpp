@@ -9,7 +9,7 @@
 
 class Game{
 public:
-  Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height);
+  Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bool &running);
   ~Game();
   static unsigned short Width;
   static unsigned short Height;
@@ -23,6 +23,6 @@ public:
 private:
   SDL_Renderer* renderer;
   char* title;
-  bool running;
+  bool &running;
   SDL_Window* window;
 };

@@ -12,7 +12,7 @@ entt::entity Game::player = entt::null;
 Map* Game::map = nullptr;
 GameObjectManager* Game::objects_manager = nullptr;
 
-Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height) : renderer(renderer), window(window){
+Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bool &running) : renderer(renderer), window(window), running(running){
   Game::Width = Width;
   Game::Height = Height;
 //  SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
@@ -22,6 +22,13 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height) : 
   map = new Map;
   //map->offset_x = 6000;
   //map->offset_y = 6000;
+}
+
+Game::~Game(){
+  delete objects_manager;
+  delete map;
+  std::cout << "Game.cpp goes bye-bye" << std::endl;
+  running = false;
 }
 
 

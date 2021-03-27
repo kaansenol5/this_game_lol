@@ -1,4 +1,3 @@
-#include "EventHandler.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <thread>
@@ -6,8 +5,6 @@
 
 int main(){
   srand((unsigned) time(NULL));
-  EventHandler* eventhandler;
-  eventhandler = new EventHandler;
   SceneManager* scenemanager;
   scenemanager = new SceneManager;
   const int FPS = 60;
@@ -19,11 +16,13 @@ int main(){
     frameStart = SDL_GetTicks();
     scenemanager->update(i);
     i++;
-    eventhandler->HandleEvents();
+
     frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
       SDL_Delay(frameDelay - frameTime);
     }
   }
   delete scenemanager;
+  std::cout << "main.cpp goes bye-bye" << std::endl;
+  return 0;
 }

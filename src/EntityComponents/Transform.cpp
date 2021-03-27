@@ -14,8 +14,9 @@ TransformComponent::TransformComponent(int x, int y, int width, int height, SDL_
 }
 
 TransformComponent::~TransformComponent(){
-//  SDL_DestroyTexture(texture);
+  
 }
+
 
 void TransformComponent::render(){
   if(animated){

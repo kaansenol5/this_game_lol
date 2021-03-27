@@ -3,7 +3,7 @@
 #include "EntityComponents/Transform.hpp"
 #include "EntityComponents/Player.h"
 
-EventHandler::EventHandler(){
+EventHandler::EventHandler(Game* game) : game(game){
   config = JsonLoader::load("config/keybinds.json");
 }
 
@@ -78,6 +78,6 @@ void EventHandler::PlayerController(const Uint8 *state){
 void EventHandler::OnKeyDown(SDL_Keycode sym){
   switch (sym) {
     case SDLK_ESCAPE:
-      exit(0);
+      delete game;
   }
 }

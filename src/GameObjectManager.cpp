@@ -18,6 +18,13 @@ GameObjectManager::GameObjectManager(){
   }
 }
 
+GameObjectManager::~GameObjectManager(){
+  for(SDL_Texture* texture : textures){
+    SDL_DestroyTexture(texture);
+  }
+  std::cout << "GameObjectManager.cpp goes bye-bye" << std::endl;
+}
+
 void GameObjectManager::spawn(int tag, int x, int y){
   auto spawned = Game::EntityRegistry.create();
   std::string tagstr = std::to_string(tag);

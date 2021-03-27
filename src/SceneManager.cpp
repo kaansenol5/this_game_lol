@@ -33,16 +33,15 @@ SceneManager::SceneManager(){
   SDL_RenderPresent(renderer);
   running = true;
   start_menu_scene = new StartMenu(window, renderer, current_scene_id, running);
-  game_scene = new Game(window, renderer, Width, Height);
+  game_scene = new Game(window, renderer, Width, Height, running);
+  event_handler = new EventHandler(game_scene);
 
 }
 
 SceneManager::~SceneManager(){ // this should only be called by main.cpp after the loop ends, all scenes must set running to false when their destructor is called
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
-  std::cout << "Game quit, waiting." << std::endl;
-  std::cin.get();
-  exit(0);
+  std::cout << "SceneManager.cpp goes bye-bye" << std::endl;
 }
 
 void SceneManager::update(unsigned long long i){
@@ -52,5 +51,6 @@ void SceneManager::update(unsigned long long i){
   else if(current_scene_id == 1){
     game_scene->update(i);
     game_scene->render();
+    event_handler->HandleEvents();
   }
 }

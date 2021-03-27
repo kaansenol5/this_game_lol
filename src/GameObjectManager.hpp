@@ -8,6 +8,7 @@
 class GameObjectManager{
 public:
   GameObjectManager();
+  ~GameObjectManager();
   void update();
   void render_all();
   void move_all(int x, int y);

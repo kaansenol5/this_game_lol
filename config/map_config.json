@@ -2,9 +2,9 @@
   "tilesize":32,
   "tile_real_size":32,
   "amount_of_types":3,
-  "map_size":32000,
+  "map_size":3200,
   "resource_percentage":50,
-  "structures_to_generate": 160000,
+  "structures_to_generate": 16000,
   "0":{
     "name":"sand",
     "asset":"assets/tiles/sand.png",

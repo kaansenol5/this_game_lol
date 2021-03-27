@@ -11,7 +11,7 @@ StartMenu::~StartMenu(){
     for(Text text : texts){
       SDL_DestroyTexture(text.texture);
     }
-    std::cout << "start_menu_scene exits" << std::endl;
+    std::cout << "StartMenu.cpp goes bye-bye" << std::endl;
     running = false;
 }
 
@@ -22,7 +22,7 @@ void StartMenu::add_text(char* font_dir, char* text, int ptsize, SDL_Rect locati
 
 void StartMenu::updateFrame(){
   SDL_RenderClear(renderer);
-  for(Text text : texts){
+  for(Text& text : texts){
     TextureManager::render(text.texture, NULL, &text.location);
   }
   SDL_Event event;

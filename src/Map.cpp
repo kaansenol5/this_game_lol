@@ -11,23 +11,24 @@ Map::Map(){
   json c = JsonLoader::load("config/map_config.json");
   config = c;
   int amount_of_types = config["amount_of_types"];
-  std::cout << amount_of_types << std::endl;
   for(int i = 0; i < amount_of_types; i++){
-    std::cout << "aaa" << std::endl;
     TileType tiletype = {TextureManager::load_texture(config[std::to_string(i)]["asset"]), config[std::to_string(i)]["variations"], config[std::to_string(i)]["max_repeat"]};
     tilesize = (int)config["tilesize"];
     tile_types.push_back(tiletype);
   }
-  auto start_time = time(NULL);
   structures_to_generate = config["structures_to_generate"];
   mapsize = config["map_size"];
   mapsize = mapsize -= mapsize % std::thread::hardware_concurrency(); //makes sure that mapsize is dividable by the amount of threads present
   init_empty_map();
-  std::cout << "mapinit takes " << time(NULL) - start_time << " secs" << std::endl;
   random_generation();
   //generate_land_resources();
+}
 
-
+Map::~Map(){
+  for(TileType tile: tile_types){
+    SDL_DestroyTexture(tile.texture);
+  }
+  std::cout << "Map.cpp goes bye-bye" << std::endl;
 }
 
 
@@ -49,11 +50,9 @@ void Map::init_empty_map(){
 }
 
 void Map::partial_map_gen(int generate_amount){
-  std::cout << "partial map generation thread started id: " << std::thread::id() << std::endl;
   unsigned start_time = time(NULL);
   int amount_of_types = (int)config["amount_of_types"];
   using namespace std::chrono_literals;
-  std::cout << std::to_string(generate_amount) << std::endl;
   int x = 0;
   int y = 0;
   unsigned char tile_type = rand()%amount_of_types;
@@ -98,7 +97,6 @@ void Map::partial_map_gen(int generate_amount){
       }
     }
   }
-  std::cout << "bye!" << std::endl;
 }
 
 
