@@ -6,6 +6,10 @@
 EventHandler::EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight, bool& game_running)
 : objects_manager(objects_manager), EntityRegistry(EntityRegistry), screenwidth(screenwidth), screenheight(screenheight), game_running(game_running){
   config = JsonLoader::load("config/keybinds.json");
+  keymap.left = config["left"];
+  keymap.right = config["right"];
+  keymap.up = config["up"];
+  keymap.down = config["down"];
 }
 
 void EventHandler::HandleEvents(Map* map){
@@ -28,7 +32,7 @@ void EventHandler::PlayerController(const Uint8 *state, Map* map){
   auto players = EntityRegistry.view<Player>();
   for(auto player : players){
     TransformComponent &player_transform = EntityRegistry.get<TransformComponent>(player);
-    if(state[config["up"]]){
+    if(state[keymap.up]){
       if(player_transform.dst_rect.y > 200){
         player_transform.move(0, -1, true, EntityRegistry);
         map->scrolled_y = false;
@@ -39,7 +43,7 @@ void EventHandler::PlayerController(const Uint8 *state, Map* map){
       }
     }
 
-    if(state[config["down"]]){
+    if(state[keymap.down]){
       if(player_transform.dst_rect.y < screenheight -200){
         player_transform.move(0, 1, true, EntityRegistry);
         map->scrolled_y = false;
@@ -50,7 +54,7 @@ void EventHandler::PlayerController(const Uint8 *state, Map* map){
       }
     }
 
-    if(state[config["left"]]){
+    if(state[keymap.left]){
       if(player_transform.dst_rect.x > 200){
         player_transform.move(-1, 0, true, EntityRegistry);
         map->scrolled_x = false;
@@ -61,7 +65,7 @@ void EventHandler::PlayerController(const Uint8 *state, Map* map){
       }
     }
 
-    if(state[config["right"]]){
+    if(state[keymap.right]){
       if(player_transform.dst_rect.x < screenwidth -200){
         player_transform.move(1, 0, true, EntityRegistry);
         map->scrolled_x = false;
