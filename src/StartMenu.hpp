@@ -4,10 +4,7 @@
 #include <vector>
 
 
-struct Text{
-  SDL_Texture* texture;
-  SDL_Rect location;
-};
+
 
 class StartMenu{
 public:
@@ -20,5 +17,5 @@ private:
   int& current_scene_id;
   SDL_Window* window;
   SDL_Renderer* renderer;
-  std::vector<Text> texts;
+
 };

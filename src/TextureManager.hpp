@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
 #include "SceneManager.hpp"
 
@@ -22,11 +23,34 @@ public:
     return texture;
 
   }
+
+  static inline bool check_bounds(SDL_Rect *dest){
+    if(dest->x > -100 && dest->x < SceneManager::Width+100 && dest->y > -100 && dest->y < SceneManager::Height+100){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   static inline void render(SDL_Texture* texture, SDL_Rect *source, SDL_Rect *dest){
-    if(dest->x > -100 && dest->x < SceneManager::Width+100 && dest->y > -100 && dest->y < SceneManager::Height+100){ //check if destination rect is in the screen
+    if(check_bounds(dest)){ //check if destination rect is in the screen
       if(SDL_RenderCopy(SceneManager::renderer, texture, source, dest) != 0){
         std::cout << SDL_GetError() << dest->x << " "  << dest->y << std::endl;
       }
+    }
+  }
+
+  static inline void draw_rect(SDL_Rect *dest, bool filled, SDL_Color color){
+    if(check_bounds(dest)){
+      SDL_SetRenderDrawColor(SceneManager::renderer, color.r, color.g, color.b, color.a);
+      if(filled){
+        SDL_RenderFillRect(SceneManager::renderer, dest);
+      }
+      else{
+        SDL_RenderDrawRect(SceneManager::renderer, dest);
+      }
+      SDL_SetRenderDrawColor(SceneManager::renderer, 0, 0, 0, 0);
     }
   }
 };

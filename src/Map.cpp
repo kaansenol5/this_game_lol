@@ -102,7 +102,7 @@ void Map::partial_map_gen(int generate_amount){
 
 
 void Map::random_generation(){
-  unsigned long i = 0;
+  unsigned i = 0;
   std::cout << "map generation begin" << std::endl;
   //srand((int)time(0));
   unsigned int avaliable_threads = std::thread::hardware_concurrency();
@@ -110,8 +110,6 @@ void Map::random_generation(){
   std::vector<std::thread> threads;
   int generator = structures_to_generate / avaliable_threads;
   while(i<structures_to_generate){
-    unsigned long ii = 0;
-
     std::thread(&Map::partial_map_gen ,this, generator).detach();
     i+=generator;
     //std::cout << i/10000 << std::endl;

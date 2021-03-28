@@ -32,13 +32,11 @@ private:
   void random_generation();
   void init_empty_map();
   int tilesize;
-  int mapsize;
-  int structures_to_generate;
+  unsigned long mapsize;
+  unsigned structures_to_generate;
   json config;
   void partial_map_gen(int generate_amount);
   std::vector<TileType> tile_types;
   std::vector<std::vector<Tile>> game_map; //this will be either vector or very big number
 //  std::vector<std::vector<int>> source_rect_map;
-  SDL_Texture* grass;
-  SDL_Texture* stone;
 };

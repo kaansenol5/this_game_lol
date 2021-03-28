@@ -1,9 +1,11 @@
 #include "SceneManager.hpp"
+#include <SDL2/SDL_events.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "JsonLoader.hpp"
 #include "Game.hpp"
+
 
 SDL_Renderer* SceneManager::renderer = nullptr;
 unsigned short SceneManager::Width = 0;
@@ -34,8 +36,8 @@ SceneManager::SceneManager(){
   SDL_RenderClear(renderer); //clear the screen
   SDL_RenderPresent(renderer);
   running = true;
-  start_menu_scene = new StartMenu(window, renderer, current_scene_id, running);
-  game_scene = new Game(window, renderer, Width, Height, running);
+  start_menu_scene = new UI(renderer, Width, Height);
+  //game_scene = new Game(window, renderer, Width, Height, running);
 
 }
 
@@ -47,10 +49,17 @@ SceneManager::~SceneManager(){ // this should only be called by main.cpp after t
 
 void SceneManager::update(unsigned long long i){
   if(current_scene_id == 0){
-    start_menu_scene -> updateFrame();
+    start_menu_scene -> render();
   }
   else if(current_scene_id == 1){
     game_scene->render();
     game_scene->update(i);
+  }
+  SDL_Event event;
+  SDL_PollEvent(&event);
+  switch (event.type) {
+    case SDL_QUIT:
+      delete game_scene;
+      delete this;
   }
 }

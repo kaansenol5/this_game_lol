@@ -5,7 +5,7 @@
 
 NPC_Component::NPC_Component(std::string type, int w, int h)
 :type(type), width(w), height(h){
-  std::cout << "initialized an npc" << std::endl;
+
 }
 
 void NPC_Component::update(TransformComponent& self, TransformComponent& player, entt::registry& EntityRegistry){

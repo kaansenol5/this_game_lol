@@ -2,8 +2,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "Game.hpp"
-#include "StartMenu.hpp"
 #include "EventHandler.hpp"
+#include "UI/UI.hpp"
+
+
 class SceneManager{
 public:
   SceneManager();
@@ -21,7 +23,7 @@ private:
   char* title;
   bool running;
   Game* game_scene;
-  StartMenu* start_menu_scene;
+  UI* start_menu_scene;
   TTF_Font* default_font;
   int current_scene_id; //0 IS MENU, 1 IS GAME
 };
