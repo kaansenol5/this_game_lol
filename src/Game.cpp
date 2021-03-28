@@ -11,7 +11,8 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bo
   objects_manager = new GameObjectManager(Width, Height);
   objects_manager->spawn(0, rand()%(Width-200)+200, (rand()%Height-200)+200); //SPAWN "THING" WITH TAG 0
   map = new Map(objects_manager);
-  eventhandler = new EventHandler(objects_manager, objects_manager -> EntityRegistry, Width, Height);
+  eventhandler = new EventHandler(objects_manager, objects_manager -> EntityRegistry, Width, Height, game_running);
+  game_running = true;
   //map->offset_x = 6000;
   //map->offset_y = 6000;
 }
@@ -19,6 +20,7 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bo
 Game::~Game(){
   delete objects_manager;
   delete map;
+  delete eventhandler;
   std::cout << "Game.cpp goes bye-bye" << std::endl;
   running = false;
 }
@@ -39,6 +41,8 @@ void Game::update(unsigned long long i){
   map->scrolled_x = false;
   map->scrolled_y = false;
   eventhandler ->HandleEvents(map);
+  if(!game_running)
+    delete this;
 }
 
 

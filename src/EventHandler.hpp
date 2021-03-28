@@ -7,11 +7,12 @@
 
 class EventHandler{
 public:
-  EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight);
+  EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight, bool& game_running);
   void HandleEvents(Map* map);
 private:
   entt::registry& EntityRegistry;
   json config;
+  bool& game_running;
   GameObjectManager* objects_manager;
   int screenwidth;
   int screenheight;

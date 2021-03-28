@@ -3,8 +3,8 @@
 #include "EntityComponents/Player.h"
 #include "Map.hpp"
 
-EventHandler::EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight)
-: objects_manager(objects_manager), EntityRegistry(EntityRegistry), screenwidth(screenwidth), screenheight(screenheight){
+EventHandler::EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight, bool& game_running)
+: objects_manager(objects_manager), EntityRegistry(EntityRegistry), screenwidth(screenwidth), screenheight(screenheight), game_running(game_running){
   config = JsonLoader::load("config/keybinds.json");
 }
 
@@ -15,6 +15,8 @@ void EventHandler::HandleEvents(Map* map){
     case SDL_KEYDOWN:
       OnKeyDown(event.key.keysym.sym);
       break;
+    case SDL_QUIT:
+      game_running = false;
     default:
       break;
   }
@@ -79,6 +81,6 @@ void EventHandler::PlayerController(const Uint8 *state, Map* map){
 void EventHandler::OnKeyDown(SDL_Keycode sym){
   switch (sym) {
     case SDLK_ESCAPE:
-      exit(0);
+      game_running = false;
   }
 }

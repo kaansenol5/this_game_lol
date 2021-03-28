@@ -50,7 +50,7 @@ void SceneManager::update(unsigned long long i){
     start_menu_scene -> updateFrame();
   }
   else if(current_scene_id == 1){
-    game_scene->update(i);
     game_scene->render();
+    game_scene->update(i);
   }
 }

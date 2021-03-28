@@ -24,5 +24,6 @@ private:
   SDL_Renderer* renderer;
   char* title;
   bool &running;
+  bool game_running;
   SDL_Window* window;
 };
