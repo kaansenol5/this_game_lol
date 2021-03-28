@@ -6,6 +6,8 @@
 #include "Game.hpp"
 
 SDL_Renderer* SceneManager::renderer = nullptr;
+unsigned short SceneManager::Width = 0;
+unsigned short SceneManager::Height = 0;
 
 SceneManager::SceneManager(){
   current_scene_id = 0;
@@ -34,7 +36,6 @@ SceneManager::SceneManager(){
   running = true;
   start_menu_scene = new StartMenu(window, renderer, current_scene_id, running);
   game_scene = new Game(window, renderer, Width, Height, running);
-  event_handler = new EventHandler(game_scene);
 
 }
 
@@ -51,6 +52,5 @@ void SceneManager::update(unsigned long long i){
   else if(current_scene_id == 1){
     game_scene->update(i);
     game_scene->render();
-    event_handler->HandleEvents();
   }
 }

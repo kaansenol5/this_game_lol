@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 
-Map::Map(){
+Map::Map(GameObjectManager* objects_manager) : objects_manager(objects_manager){
   json c = JsonLoader::load("config/map_config.json");
   config = c;
   int amount_of_types = config["amount_of_types"];
@@ -123,25 +123,25 @@ void Map::scroll(int x, int y){
   if(offset_x+x <= 0 && offset_x+x < mapsize && x!=0){
     offset_x += x;
     scrolled_x = true;
-    Game::objects_manager->move_all(x, y);
+    objects_manager->move_all(x, y);
 
 
   }
   if(offset_y+y <= 0 && offset_y+y < mapsize && y!=0){
     offset_y += y;
     scrolled_y = true;
-    Game::objects_manager->move_all(x, y);
+    objects_manager->move_all(x, y);
   }
 
 }
 
 
-void Map::render(){
+void Map::render(int width, int height){
   int tile_real_size = config["tile_real_size"];
   int roffset_x = -1*offset_x/32;
   int roffset_y = -1*offset_y/32;
-  for(long i = roffset_x; i < roffset_x + Game::Width; i++){
-    for(long ii = roffset_y; ii < roffset_y + Game::Height; ii++){
+  for(long i = roffset_x; i < roffset_x + width; i++){
+    for(long ii = roffset_y; ii < roffset_y + height; ii++){
         short source_x = tilesize * (game_map[i][ii].asset); // GETS THE SOURCE RECT X FOR TILE VARIATIONS
         SDL_Rect src_rect = {source_x, 0, tile_real_size, tile_real_size};
         short x = tilesize * i + offset_x; //OFFSETS GET INCERASED AS PLAYER MOVES

@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include "JsonLoader.hpp"
+#include "GameObjectManager.hpp"
 
 struct Tile{
   unsigned char type;
@@ -18,15 +19,16 @@ struct TileType{
 
 class Map{
 public:
-  Map();
+  Map(GameObjectManager* objects_manager);
   ~Map();
-  void render();
+  void render(int width, int height);
   void scroll(int x, int y);
   bool scrolled_x = false;
   bool scrolled_y = false;
   int offset_x = 0;
   int offset_y = 0;
 private:
+  GameObjectManager* objects_manager;
   void random_generation();
   void init_empty_map();
   int tilesize;

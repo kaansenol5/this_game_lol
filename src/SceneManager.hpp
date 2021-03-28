@@ -14,15 +14,14 @@ public:
     return running;
   }
   static SDL_Renderer* renderer;
+  static unsigned short Width;
+  static unsigned short Height;
 private:
-  unsigned short Width;
-  unsigned short Height;
   SDL_Window* window;
   char* title;
   bool running;
   Game* game_scene;
   StartMenu* start_menu_scene;
   TTF_Font* default_font;
-  EventHandler* event_handler;
   int current_scene_id; //0 IS MENU, 1 IS GAME
 };

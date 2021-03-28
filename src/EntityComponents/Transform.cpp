@@ -14,7 +14,7 @@ TransformComponent::TransformComponent(int x, int y, int width, int height, SDL_
 }
 
 TransformComponent::~TransformComponent(){
-  
+
 }
 
 
@@ -50,11 +50,11 @@ void TransformComponent::animate_sprites(){
   }
 }
 
-void TransformComponent::move(int x_diff, int y_diff, bool withSpeed){
+void TransformComponent::move(int x_diff, int y_diff, bool withSpeed, entt::registry& EntityRegistry){
   if(withSpeed){
     bool allow_x=true;
     bool allow_y=true;
-    Game::EntityRegistry.view<Hitbox, TransformComponent>().each([this, x_diff, y_diff, &allow_x, &allow_y](auto ent, auto &hitbox, auto &transform_comp){
+    EntityRegistry.view<Hitbox, TransformComponent>().each([this, x_diff, y_diff, &allow_x, &allow_y](auto ent, auto &hitbox, auto &transform_comp){
       if(((dst_rect.x + x_diff*movement_speed_x > transform_comp.dst_rect.x && dst_rect.x + x_diff*movement_speed_x < transform_comp.dst_rect.x + transform_comp.dst_rect.w) && (dst_rect.y > transform_comp.dst_rect.y && dst_rect.y < transform_comp.dst_rect.y + transform_comp.dst_rect.h))){
         allow_x=false;
       }

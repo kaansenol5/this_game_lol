@@ -5,21 +5,13 @@
 #include <SDL2/SDL_image.h>
 #include <thread>
 
-unsigned short Game::Width = 0;
-unsigned short Game::Height = 0;
-entt::registry Game::EntityRegistry = entt::registry();
-entt::entity Game::player = entt::null;
-Map* Game::map = nullptr;
-GameObjectManager* Game::objects_manager = nullptr;
-
-Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bool &running) : renderer(renderer), window(window), running(running){
-  Game::Width = Width;
-  Game::Height = Height;
+Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bool &running) : renderer(renderer), window(window), running(running), Width(Width), Height(Height){
 //  SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
 
-  objects_manager = new GameObjectManager;
+  objects_manager = new GameObjectManager(Width, Height);
   objects_manager->spawn(0, rand()%(Width-200)+200, (rand()%Height-200)+200); //SPAWN "THING" WITH TAG 0
-  map = new Map;
+  map = new Map(objects_manager);
+  eventhandler = new EventHandler(objects_manager, objects_manager -> EntityRegistry, Width, Height);
   //map->offset_x = 6000;
   //map->offset_y = 6000;
 }
@@ -34,18 +26,19 @@ Game::~Game(){
 
 void Game::render(){
   SDL_RenderClear(renderer);
-  map->render();
+  map->render(Width, Height);
   objects_manager->render_all();
   SDL_RenderPresent(renderer);
 }
 
 void Game::update(unsigned long long i){
-  objects_manager->update();
+  objects_manager->update(Width, Height);
   if(i%600 == 0){
-    objects_manager->enemy_spawn_random();
+    objects_manager->enemy_spawn_random(Width, Height);
   }
   map->scrolled_x = false;
   map->scrolled_y = false;
+  eventhandler ->HandleEvents(map);
 }
 
 
