@@ -41,6 +41,11 @@ void Menu::set_xy(item_location location, int& x, int& y){
         case BOTTOM:
             x = default_side_item_padding;
             y = Height - 15 - default_item_height;
+            break;
+        case TOP:
+            x = Width / 2 - default_item_width;
+            y = 15;
+            break;
     }
 
     for(auto button : buttons){

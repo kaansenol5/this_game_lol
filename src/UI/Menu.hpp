@@ -10,7 +10,7 @@ public:
   Menu(const int& Width, const int& Height);
 
   enum item_location{
-    CENTERED, LEFT, RIGHT, DOWN, BOTTOM
+    CENTERED, LEFT, RIGHT, DOWN, BOTTOM, TOP
   };
   void update();
   void add_button(char* fontdir, char* text, int ptsize, item_location location,  const std::function<void()> fn);

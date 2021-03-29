@@ -36,8 +36,8 @@ SceneManager::SceneManager(){
   SDL_RenderClear(renderer); //clear the screen
   SDL_RenderPresent(renderer);
   running = true;
-  start_menu_scene = new UI(renderer, Width, Height);
-  //game_scene = new Game(window, renderer, Width, Height, running);
+  start_menu_scene = new UI(renderer, Width, Height, current_scene_id);
+  game_scene = new Game(window, renderer, Width, Height, running);
 
 }
 

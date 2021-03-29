@@ -5,6 +5,9 @@
 #include <SDL2/SDL_image.h>
 #include <thread>
 
+
+Map* Game::map = nullptr;
+
 Game::Game(SDL_Window* window, SDL_Renderer* renderer, int Width, int Height, bool &running) : renderer(renderer), window(window), running(running), Width(Width), Height(Height){
 //  SDL_SetRenderDrawColor(renderer, 255,255,255,255); //set default rendering color to white (rgba)
 

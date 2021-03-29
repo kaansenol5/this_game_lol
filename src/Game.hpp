@@ -15,7 +15,7 @@ public:
   void render();
   void update(unsigned long long i);
   bool check_running();
-  Map* map;
+  static Map* map;
   GameObjectManager* objects_manager;
 private:
   EventHandler* eventhandler;

@@ -32,7 +32,7 @@ private:
   void random_generation();
   void init_empty_map();
   int tilesize;
-  unsigned long mapsize;
+  long mapsize;
   unsigned structures_to_generate;
   json config;
   void partial_map_gen(int generate_amount);
