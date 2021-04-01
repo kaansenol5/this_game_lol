@@ -73,7 +73,7 @@ void Menu::add_text(char* fontdir, char* text, int ptsize, item_location locatio
     int x, y;
     set_xy(location, x, y);
     dst_rect = {x, y, default_item_width, default_item_height};
-    texts.push_back((Text){fontdir, text, ptsize, color, dst_rect});
+    texts.push_back({fontdir, text, ptsize, color, dst_rect});
 }
 
 void Menu::handle_events(){

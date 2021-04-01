@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "JsonLoader.hpp"
 #include "Game.hpp"
+#include "UI/colors.hpp"
 
 
 SDL_Renderer* SceneManager::renderer = nullptr;
@@ -37,8 +38,14 @@ SceneManager::SceneManager(){
   SDL_RenderPresent(renderer);
   running = true;
   start_menu_scene = new UI(renderer, Width, Height, current_scene_id);
+  
+  start_menu_scene->add_menu([this](Menu &new_menu){
+    new_menu.add_text("assets/fonts/font.ttf", "The Game", 36, Menu::TOP, Colors::White);
+    new_menu.add_button("assets/fonts/font.ttf", "Start!", 24, Menu::CENTERED, [this](){
+      current_scene_id = 1;
+    });
+  });
   game_scene = new Game(window, renderer, Width, Height, running);
-
 }
 
 SceneManager::~SceneManager(){ // this should only be called by main.cpp after the loop ends, all scenes must set running to false when their destructor is called
@@ -46,6 +53,7 @@ SceneManager::~SceneManager(){ // this should only be called by main.cpp after t
   SDL_DestroyWindow(window);
   std::cout << "SceneManager.cpp goes bye-bye" << std::endl;
 }
+
 
 void SceneManager::update(unsigned long long i){
   if(current_scene_id == 0){
@@ -55,11 +63,13 @@ void SceneManager::update(unsigned long long i){
     game_scene->render();
     game_scene->update(i);
   }
-  SDL_Event event;
-  SDL_PollEvent(&event);
-  switch (event.type) {
-    case SDL_QUIT:
-      delete game_scene;
-      delete this;
-  }
+
+
+  //SDL_Event event;
+//  SDL_PollEvent(&event);
+  //switch (event.type) {
+    //case SDL_QUIT:
+      //delete game_scene;
+      //delete this;
+  //}
 }

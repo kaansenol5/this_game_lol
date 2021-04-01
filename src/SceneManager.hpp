@@ -15,6 +15,7 @@ public:
   inline bool check_running(){
     return running;
   }
+  static void quit_game();
   static SDL_Renderer* renderer;
   static unsigned short Width;
   static unsigned short Height;

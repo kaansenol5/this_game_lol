@@ -18,10 +18,10 @@ public:
   void render();
   void set_background_image(char* imgdir);
   void set_background_color(SDL_Color background_color);
-  void change_scene(int scene);
+  void add_menu(std::function<void(Menu &new_menu)> fn);
+  int current_menu = 0;
 private:
   std::vector<Menu> menus; // menus[0] is main menu
-  int current_menu = 0;
   SDL_Renderer* renderer;
   const int& Width;
   const int& Height;
