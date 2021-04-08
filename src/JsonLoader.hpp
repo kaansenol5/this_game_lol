@@ -7,10 +7,10 @@ using json = nlohmann::json;
 
 class JsonLoader{
 public:
-  static json inline load(char* dirname){
-    std::cout << "loading " << dirname << std::endl;
+  static json inline load(char* file_name){
+    std::cout << "LOADING JSON FILE \"" << file_name << "\"" << std::endl;
     std::ifstream file;
-    file.open(dirname, std::ios::out);
+    file.open(file_name, std::ios::out);
     std::string text;
     std::string tmp;
     while (getline (file, tmp)) {

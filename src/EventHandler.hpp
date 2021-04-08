@@ -1,30 +1,17 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include "JsonLoader.hpp"
+#include <SDL2/SDL_keyboard.h>
 #include "GameObjectManager.hpp"
-#include "include/entt.hpp"
-#include "Map.hpp"
-
-
-
-struct Keymap{
-  int left, right , up, down;
-};
-
-
+#include "JsonLoader.hpp"
+#include "Keymap.h"
 
 class EventHandler{
 public:
-  EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight, bool& game_running);
-  void HandleEvents(Map* map);
+    EventHandler();
+    void handle_events();
 private:
-  Keymap keymap;
-  entt::registry& EntityRegistry;
-  json config;
-  bool& game_running;
-  GameObjectManager* objects_manager;
-  int screenwidth;
-  int screenheight;
-  void PlayerController(const Uint8 *state, Map* map);
-  void OnKeyDown(SDL_Keycode sym);
+    Keymap keymap;
+    Keymap load_keymap();
+    json config;
+    void on_key_down(SDL_Keysym sym);
+    void on_mouse_click(int &x, int y);
 };

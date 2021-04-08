@@ -1,75 +1,79 @@
 #include "SceneManager.hpp"
-#include <SDL2/SDL_events.h>
-#include <iostream>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include "JsonLoader.hpp"
-#include "Game.hpp"
+#include "SDL_events.h"
+#include "SDL_image.h"
+#include "SDL_keycode.h"
+#include "SDL_ttf.h"
+#include "UI/Button.hpp"
 #include "UI/colors.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_blendmode.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
 
+unsigned short SceneManager::width = 0;
+unsigned short SceneManager::height = 0;
+SDL_Renderer* SceneManager::renderer =  nullptr;
+bool SceneManager::is_running = false;
 
-SDL_Renderer* SceneManager::renderer = nullptr;
-unsigned short SceneManager::Width = 0;
-unsigned short SceneManager::Height = 0;
+SceneManager::SceneManager(unsigned short width, unsigned short height){
+    this->width = width;
+    this->height = height;
 
-SceneManager::SceneManager(){
-  current_scene_id = 0;
-  if((SDL_Init(SDL_INIT_EVERYTHING) != 0)){
-    std::cout << "SDL INIT FAILED errorcode: " << SDL_GetError() << std::endl;
-    exit(1);
-  }
-  IMG_Init(IMG_INIT_PNG);
-  TTF_Init();
-  auto j = JsonLoader::load((char*)"config/game_config.json");
-  Width=j["width"];
-  Height=j["height"];
-  std::string name = j["name"];
-  window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, 0);
-  if(!window){
-    std::cout << "Window not created " << SDL_GetError() << std::endl;
-    exit(1);
-  }
-  renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-  if(!renderer){
-    std::cout << "Renderer not created " << SDL_GetError() << std::endl;
-    exit(1);
-  }
-  SDL_RenderClear(renderer); //clear the screen
-  SDL_RenderPresent(renderer);
-  running = true;
-  start_menu_scene = new UI(renderer, Width, Height, current_scene_id);
-  
-  start_menu_scene->add_menu([this](Menu &new_menu){
-    new_menu.add_text("assets/fonts/font.ttf", "The Game", 36, Menu::TOP, Colors::White);
-    new_menu.add_button("assets/fonts/font.ttf", "Start!", 24, Menu::CENTERED, [this](){
-      current_scene_id = 1;
+    SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
+
+    window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+
+    start_scene = new UI(renderer, width, height);
+
+    start_scene -> add_menu([this](Menu& menu){
+        menu.add_text((char*) "assets/fonts/font.ttf", (char*) "Hello", 24, Menu::UP, Colors::White);
+        menu.add_button((char*) "assets/fonts/font.ttf", (char*) "Start!", 36, Menu::CENTERED, true, [this](Button& button){
+            current_scene = GAME;
+        });
+        menu.set_extra_event_handling([](SDL_Event event){
+            switch (event.type) {
+                case SDL_QUIT:
+                    quit_game();
+                    break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_ESCAPE:
+                            quit_game();
+                            break;
+                    }
+            }
+        });
     });
-  });
-  game_scene = new Game(window, renderer, Width, Height, running);
+    game_scene = new Game;
+    is_running = true;
 }
 
-SceneManager::~SceneManager(){ // this should only be called by main.cpp after the loop ends, all scenes must set running to false when their destructor is called
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  std::cout << "SceneManager.cpp goes bye-bye" << std::endl;
+SceneManager::~SceneManager(){
+    delete start_scene;
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 }
 
+void SceneManager::quit_game(){
+    is_running = false;
+}
 
-void SceneManager::update(unsigned long long i){
-  if(current_scene_id == 0){
-    start_menu_scene -> render();
-  }
-  else if(current_scene_id == 1){
-    game_scene->render();
-    game_scene->update(i);
-  }
+bool SceneManager::check_running(){
+    return is_running;
+}
 
-
-  //SDL_Event event;
-//  SDL_PollEvent(&event);
-  //switch (event.type) {
-    //case SDL_QUIT:
-      //delete game_scene;
-      //delete this;
-  //}
+void SceneManager::update(){
+    switch (current_scene) {
+        case START_MENU:
+            start_scene -> render();
+            break;
+        default:
+            game_scene -> update_frame();
+            break;
+    }
 }

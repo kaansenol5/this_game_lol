@@ -1,28 +1,28 @@
-#include <SDL2/SDL.h>
-#include <iostream>
-#include <thread>
+#include "JsonLoader.hpp"
 #include "SceneManager.hpp"
+#include <SDL2/SDL_timer.h>
+#include <iostream>
 
-int main(){
-  srand((unsigned) time(NULL));
-  SceneManager* scenemanager;
-  scenemanager = new SceneManager;
-  const int FPS = 60;
-  const int frameDelay = 1000 / FPS;
-  Uint32 frameStart;
-  int frameTime;
-  unsigned long long i = 0;
-  while (scenemanager->check_running()){
-    frameStart = SDL_GetTicks();
-    scenemanager->update(i);
-    i++;
+int main(int argc, char* argv[]){
+    json config = JsonLoader::load((char*)"config/game_config.json");
+    const unsigned char FPS = config["FPS"];
+    const int frame_delay = 1000 / FPS;
+    unsigned long frame_start;
+    int frame_time;
+    unsigned long long frame_counter = 0;
 
-    frameTime = SDL_GetTicks() - frameStart;
-    if(frameDelay > frameTime){
-      SDL_Delay(frameDelay - frameTime);
+    SceneManager scene_manager(config["width"], config["height"]);
+
+    while (scene_manager.check_running()){
+        frame_start = SDL_GetTicks();
+        scene_manager.update();
+        frame_counter++;
+
+        frame_time = SDL_GetTicks() - frame_start;
+        if(frame_delay > frame_time){
+            SDL_Delay(frame_delay - frame_time);
+        }
     }
-  }
-  delete scenemanager;
-  std::cout << "main.cpp goes bye-bye" << std::endl;
-  return 0;
+
+    std::cout << "bye!" << std::endl;
 }

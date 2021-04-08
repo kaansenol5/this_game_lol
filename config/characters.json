@@ -19,11 +19,10 @@
     "y_animated":false,
     "x_animations":5,
     "y_animations":1,
-    "is_npc":false,
     "npc_type":"none"
   },
   "1":{
-    "type":"character",
+    "type":"npc",
     "sprite":"assets/sprites/wizard.png",
     "width":32,
     "height":32,
@@ -38,7 +37,6 @@
     "y_animated":false,
     "x_animations":3,
     "y_animations":1,
-    "is_npc":true,
     "npc_type":"enemy"
   },
   "2":{
@@ -55,7 +53,6 @@
     "y_animated":false,
     "x_animations":1,
     "y_animations":1,
-    "is_npc":false,
     "npc_type":"none"
   },
   "3":{
@@ -72,7 +69,6 @@
     "y_animated":false,
     "x_animations":1,
     "y_animations":1,
-    "is_npc":false,
     "npc_type":"none"
   }
 }

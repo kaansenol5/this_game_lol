@@ -4,8 +4,8 @@
 #include <SDL2/SDL_render.h>
 #include <iostream>
 
-UI::UI(SDL_Renderer* renderer, const int& width, const int& height, int& current_scene_id)
-: renderer(renderer), Width(width), Height(height), current_scene_id(current_scene_id) {
+UI::UI(SDL_Renderer* renderer, const int& width, const int& height)
+: renderer(renderer), Width(width), Height(height) {
 }
 
 void UI::render(){
@@ -21,7 +21,7 @@ void UI::add_menu(std::function<void(Menu &new_menu)> fn){
 
 
 void UI::set_background_image(char *imgdir){
-    background_image = TextureManager::load_texture(imgdir);
+    background_image = TextureManager::load_image(imgdir);
 }
 
 void UI::set_background_color(SDL_Color background_color){

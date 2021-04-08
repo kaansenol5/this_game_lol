@@ -1,56 +1,76 @@
 #pragma once
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_ttf.h>
+#include <iostream>
 #include "SceneManager.hpp"
+
+/* 
+ALL OF THE FUNCTIONS ASSUMES THAT SDL_Init(), TTF_Init() and IMG_Init were called earlier
+*/
 
 class TextureManager{
 public:
-  static inline SDL_Texture* load_texture(std::string dir){
-    SDL_Surface* temp = IMG_Load(dir.c_str());
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(SceneManager::renderer, temp);
-    SDL_FreeSurface(temp);
-    return texture;
+    static inline SDL_Texture* load_image(const char* file){
+        SDL_Surface* temp_surface = IMG_Load(file);      
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(SceneManager::renderer, temp_surface);
+        if (!texture){
+            std::cout << "Texture loaded by TextureManager::load_image() may be invalid, image file name: " << file << std::endl;
+        }
+        SDL_FreeSurface(temp_surface);
+        return texture;
+    }
+
+    static inline SDL_Texture* load_ttf_font(const char* font_file, const char* text, const int ptsize, const SDL_Color color){
+        TTF_Font* loaded_font = TTF_OpenFont(font_file, ptsize);
+        if(!loaded_font){
+            std::cout << "Failed loading font by TextureManager::load_ttf_font() , font file name: " << font_file << std::endl;
+            std::cout << "Tip: do TTF_Init() somewhere" << std::endl;
+        }
+        SDL_Surface* temp_surface = TTF_RenderText_Solid(loaded_font, text, color);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(SceneManager::renderer, temp_surface);        
+        if (!texture){
+            std::cout << "Texture generation failed at TextureManager::load_ttf_font() " << font_file << std::endl;
+        }
+        SDL_FreeSurface(temp_surface);
+        TTF_CloseFont(loaded_font);
+        return texture;
+    }
+
+    static inline bool check_bounds(SDL_Rect* dest){
+        if(dest->x > 0 && dest->x < SceneManager::width && dest->y > 0 && dest->y < SceneManager::height){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    static inline void render(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest){
+        if(check_bounds(dest)){ //check if destination rect is in the screen
+            if(SDL_RenderCopy(SceneManager::renderer, texture, source, dest) != 0){
+                //std::cout << SDL_GetError() << " at x:" <<  dest->x << ", y: "  << dest->y << std::endl;
+              //  std::cout << "Texture: " << texture << std::endl;
+            }
+        }
+    }
+
+    static inline void draw_rect(SDL_Rect *dest, bool filled, SDL_Color color){
+        if(check_bounds(dest)){
+            SDL_SetRenderDrawColor(SceneManager::renderer, color.r, color.g, color.b, color.a);
+            if(filled){
+                SDL_RenderFillRect(SceneManager::renderer, dest);
+            }
+            else{
+                SDL_RenderDrawRect(SceneManager::renderer, dest);
+            }
+            SDL_SetRenderDrawColor(SceneManager::renderer, 0, 0, 0, 0);
+        }
   }
 
-  static inline SDL_Texture* load_ttf_font(char* font_dir, char* message, int ptsize, SDL_Color color){
-    TTF_Font* font = TTF_OpenFont(font_dir, ptsize);
-    SDL_Surface* temp_surface = TTF_RenderText_Solid(font, message, color);
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(SceneManager::renderer, temp_surface);
-    SDL_FreeSurface(temp_surface);
-    TTF_CloseFont(font);
-    return texture;
-
-  }
-
-  static inline bool check_bounds(SDL_Rect *dest){
-    if(dest->x > -100 && dest->x < SceneManager::Width+100 && dest->y > -100 && dest->y < SceneManager::Height+100){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-
-  static inline void render(SDL_Texture* texture, SDL_Rect *source, SDL_Rect *dest){
-    if(check_bounds(dest)){ //check if destination rect is in the screen
-      if(SDL_RenderCopy(SceneManager::renderer, texture, source, dest) != 0){
-        std::cout << SDL_GetError() << dest->x << " "  << dest->y << std::endl;
-      }
-    }
-  }
-
-  static inline void draw_rect(SDL_Rect *dest, bool filled, SDL_Color color){
-    if(check_bounds(dest)){
-      SDL_SetRenderDrawColor(SceneManager::renderer, color.r, color.g, color.b, color.a);
-      if(filled){
-        SDL_RenderFillRect(SceneManager::renderer, dest);
-      }
-      else{
-        SDL_RenderDrawRect(SceneManager::renderer, dest);
-      }
-      SDL_SetRenderDrawColor(SceneManager::renderer, 0, 0, 0, 0);
-    }
+  static inline void clear(unsigned char r = 0, unsigned char b = 0, unsigned char g = 0, unsigned char a = 255){
+      SDL_SetRenderDrawColor(SceneManager::renderer, r, g, b, a);
+      SDL_RenderClear(SceneManager::renderer);
   }
 };

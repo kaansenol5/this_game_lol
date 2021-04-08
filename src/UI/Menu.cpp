@@ -1,6 +1,7 @@
 #include "Menu.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_mouse.h>
+#include <SDL2/SDL_rect.h>
 
 Menu::Menu(const int& Width, const int& Height)
 : Width(Width), Height(Height){
@@ -20,64 +21,65 @@ void Menu::update(){
     handle_events();
 }
 
-void Menu::set_xy(item_location location, int& x, int& y){
+SDL_Rect Menu::set_loc(item_location location, char* text, unsigned char ptsize){
+    int x,y,w,h;
+    int len = strlen(text);
+    w = len * ptsize;
+    h = ptsize * 2;
+
     switch (location) {
         case CENTERED:
-            x = (Width/2) - default_item_width;
-            y = (Height/2) - default_item_height;
+            x = (Width/2) - w / 2;
+            y = (Height/2) - h / 2;
             break;
         case LEFT:
-            x = 15;
-            y = default_side_item_padding;
+            x = 0;
+            y = (Height/2) - h / 2;
             break;
         case RIGHT:
-            x = Width - 15 - default_item_width;
-            y = default_side_item_padding;
+            x = Width - w;
+            y = (Height/2) - h / 2;
             break;
         case DOWN:
-            x = default_side_item_padding;
-            y = 15;
+            x = (Width/2) - w / 2;
+            y = Height - h;
             break;
-        case BOTTOM:
-            x = default_side_item_padding;
-            y = Height - 15 - default_item_height;
-            break;
-        case TOP:
-            x = Width / 2 - default_item_width;
-            y = 15;
+        case UP:
+            x = (Width/2) - w / 2;;
+            y = 0;
             break;
     }
 
     for(auto button : buttons){
-        if(button.location.y == y){
-                y += default_item_height;
+        if(button.location.y == y && button.location.x == x){
+                y += button.location.h;
             }
         }
     for(auto text : texts){
-        if(text.location.y == y){
-             y += default_item_height;
+        if(text.location.y == y && text.location.x == x){
+             y += text.location.h;
         }
     }
+    return {x, y, w, h};
 }
 
-void Menu::add_button(char* fontdir, char* text, int ptsize, item_location location,  const std::function<void()> fn){
-    SDL_Rect dst_rect;
-    int x, y;
-    set_xy(location, x, y);
-    dst_rect = {x, y, default_item_width, default_item_height};
-    buttons.push_back((Button){fontdir, text, ptsize, dst_rect, fn});
+void Menu::add_button(char* fontdir, char* text, int ptsize, item_location location, bool filled,  const std::function<void(Button& button)> fn){
+    SDL_Rect dst_rect = set_loc(location, text, ptsize);
+    buttons.push_back({fontdir, text, ptsize, dst_rect, filled, fn});
 }
 
 void Menu::add_text(char* fontdir, char* text, int ptsize, item_location location,  SDL_Color color){
-    SDL_Rect dst_rect;
-    int x, y;
-    set_xy(location, x, y);
-    dst_rect = {x, y, default_item_width, default_item_height};
+    SDL_Rect dst_rect = set_loc(location, text, ptsize);
     texts.push_back({fontdir, text, ptsize, color, dst_rect});
 }
 
+void Menu::set_extra_event_handling(std::function<void (SDL_Event)> extra_event_handling){
+    this -> extra_event_handling = extra_event_handling; 
+}
+
 void Menu::handle_events(){
-    SDL_PumpEvents();
+    SDL_Event event;
+    SDL_PollEvent(&event);
     int x, y;
     Uint32 mouse_state = SDL_GetMouseState(&x, &y);
     for(auto& button : buttons){
@@ -90,6 +92,6 @@ void Menu::handle_events(){
         else {
             button.selected = false;
         }
-        
     }
+    extra_event_handling(event);
 }

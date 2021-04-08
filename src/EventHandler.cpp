@@ -1,91 +1,45 @@
 #include "EventHandler.hpp"
-#include "EntityComponents/Transform.hpp"
-#include "EntityComponents/Player.h"
-#include "Map.hpp"
-#include "Game.hpp"
+#include "JsonLoader.hpp"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
+#include "include/entt.hpp"
+#include "SceneManager.hpp"
+#include "GameObjectManager.hpp"
+#include "EntityComponents/Player.hpp"
 
-EventHandler::EventHandler(GameObjectManager* objects_manager, entt::registry& EntityRegistry,  int screenwidth, int screenheight, bool& game_running)
-: objects_manager(objects_manager), EntityRegistry(EntityRegistry), screenwidth(screenwidth), screenheight(screenheight), game_running(game_running){
-  config = JsonLoader::load("config/keybinds.json");
-  keymap.left = config["left"];
-  keymap.right = config["right"];
-  keymap.up = config["up"];
-  keymap.down = config["down"];
+
+EventHandler::EventHandler(){
+    config = JsonLoader::load((char*)"config/keymap.json");
+    keymap = load_keymap();
+};
+
+Keymap EventHandler::load_keymap(){
+    return {config["left"], config["right"], config["up"], config["down"]};
 }
 
-void EventHandler::HandleEvents(Map* map){
-  SDL_Event event;
-  SDL_PollEvent(&event);
-  switch (event.type) {
-    case SDL_KEYDOWN:
-      OnKeyDown(event.key.keysym.sym);
-      break;
-    case SDL_QUIT:
-      game_running = false;
-    default:
-      break;
-  }
-  const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
-  PlayerController(keyboard_state, map);
+void EventHandler::on_key_down(SDL_Keysym sym){
+    switch (sym.sym) {
+        case SDLK_ESCAPE:
+            SceneManager::quit_game();
+            break;
+    }
 }
 
-void EventHandler::PlayerController(const Uint8 *state, Map* map){
-  auto players = EntityRegistry.view<Player>();
-  for(auto player : players){
-    TransformComponent &player_transform = EntityRegistry.get<TransformComponent>(player);
-    if(state[keymap.up]){
-      if(player_transform.dst_rect.y > 200){
-        player_transform.move(0, -1, true, EntityRegistry);
-        Game::map->scrolled_y = false;
-      }
-      else{
-        Game::map->scroll(0, player_transform.movement_speed_y);
-
-      }
+void EventHandler::handle_events(){
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    switch (event.type) {
+        case SDL_QUIT:
+            SceneManager::quit_game();
+            break;
+        case SDL_KEYDOWN:
+            on_key_down(event.key.keysym);
+            break;
     }
+    const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
+    
 
-    if(state[keymap.down]){
-      if(player_transform.dst_rect.y < screenheight -200){
-        player_transform.move(0, 1, true, EntityRegistry);
-        Game::map->scrolled_y = false;
-      }
-      else{
-        Game::map->scroll(0, -1*player_transform.movement_speed_y);
-
-      }
-    }
-
-    if(state[keymap.left]){
-      if(player_transform.dst_rect.x > 200){
-        player_transform.move(-1, 0, true, EntityRegistry);
-        Game::map->scrolled_x = false;
-      }
-      else{
-        Game::map->scroll(player_transform.movement_speed_x,0);
-
-      }
-    }
-
-    if(state[keymap.right]){
-      if(player_transform.dst_rect.x < screenwidth -200){
-        player_transform.move(1, 0, true, EntityRegistry);
-        Game::map->scrolled_x = false;
-      }
-      else{
-        Game::map->scroll(player_transform.movement_speed_x*-1, 0);
-
-      }
-    }
-
-  }
-
-
-
-}
-
-void EventHandler::OnKeyDown(SDL_Keycode sym){
-  switch (sym) {
-    case SDLK_ESCAPE:
-      game_running = false;
-  }
+    auto player_id = GameObjectManager::get_unique_entity_id<Player>();
+    Player& player_component = GameObjectManager::EntityRegistry.get<Player>(player_id);
+    player_component.handle_movement(keyboard_state, keymap);
 }

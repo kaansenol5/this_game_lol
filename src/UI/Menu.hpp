@@ -1,5 +1,8 @@
+#pragma once
 #include "Button.hpp"
+#include "SDL_events.h"
 #include "Text.hpp"
+#include <functional>
 #include <vector>
 
 
@@ -10,20 +13,18 @@ public:
   Menu(const int& Width, const int& Height);
 
   enum item_location{
-    CENTERED, LEFT, RIGHT, DOWN, BOTTOM, TOP
+    CENTERED, LEFT, RIGHT, DOWN, UP
   };
   void update();
-  void add_button(char* fontdir, char* text, int ptsize, item_location location,  const std::function<void()> fn);
+  void add_button(char* fontdir, char* text, int ptsize, item_location location, bool filled, const std::function<void(Button& button)> fn);
   void add_text(char* fontdir, char* text, int ptsize, item_location location,  SDL_Color color);
+  void set_extra_event_handling(std::function<void(SDL_Event event)> extra_event_handling);
 private:
-  void set_xy(item_location, int& x, int& y);
+  SDL_Rect set_loc(item_location loc, char* text, unsigned char ptsize); 
   const int& Width; // screen dimensions
   const int& Height; // ^^^^^^^^^^^^^^^
-  int selected_button = 0;
-  int default_item_width = 100;
-  int default_item_height = 50;
-  int default_side_item_padding = 50;
   void handle_events();
+  std::function<void(SDL_Event event)> extra_event_handling;
   std::vector<Button> buttons;
   std::vector<Text> texts;
 };

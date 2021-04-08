@@ -1,22 +1,62 @@
 [
 {
   "directory": "/home/kaan/projects/nuketown_game",
-  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/main.cpp.o -c /home/kaan/projects/nuketown_game/src/main.cpp",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/main.cpp.o -c /home/kaan/projects/nuketown_game/src/main.cpp",
   "file": "/home/kaan/projects/nuketown_game/src/main.cpp"
 },
 {
   "directory": "/home/kaan/projects/nuketown_game",
-  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/Game.cpp.o -c /home/kaan/projects/nuketown_game/src/Game.cpp",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/EventHandler.cpp.o -c /home/kaan/projects/nuketown_game/src/EventHandler.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EventHandler.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/Game.cpp.o -c /home/kaan/projects/nuketown_game/src/Game.cpp",
   "file": "/home/kaan/projects/nuketown_game/src/Game.cpp"
 },
 {
   "directory": "/home/kaan/projects/nuketown_game",
-  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/Map.cpp.o -c /home/kaan/projects/nuketown_game/src/Map.cpp",
-  "file": "/home/kaan/projects/nuketown_game/src/Map.cpp"
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/GameObjectManager.cpp.o -c /home/kaan/projects/nuketown_game/src/GameObjectManager.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/GameObjectManager.cpp"
 },
 {
   "directory": "/home/kaan/projects/nuketown_game",
-  "command": "/usr/bin/c++   -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -g -o CMakeFiles/NukeTown.dir/src/EntityComponents/Transform.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp",
-  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Transform.cpp"
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/SceneManager.cpp.o -c /home/kaan/projects/nuketown_game/src/SceneManager.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/SceneManager.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/EntityComponents/NPC.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/NPC.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/NPC.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/EntityComponents/TransformComponent.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/TransformComponent.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/TransformComponent.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/EntityComponents/Player.cpp.o -c /home/kaan/projects/nuketown_game/src/EntityComponents/Player.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/EntityComponents/Player.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/UI/UI.cpp.o -c /home/kaan/projects/nuketown_game/src/UI/UI.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/UI/UI.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/UI/Button.cpp.o -c /home/kaan/projects/nuketown_game/src/UI/Button.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/UI/Button.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/UI/Text.cpp.o -c /home/kaan/projects/nuketown_game/src/UI/Text.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/UI/Text.cpp"
+},
+{
+  "directory": "/home/kaan/projects/nuketown_game",
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/UI/Menu.cpp.o -c /home/kaan/projects/nuketown_game/src/UI/Menu.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/UI/Menu.cpp"
 }
 ]
