@@ -15,7 +15,6 @@ add_executable(
   NukeTown
   src/main.cpp
   src/BaseEventHandler.cpp
-  src/SimpleEventHandler.cpp
   src/Game.cpp
   src/GameObjectManager.cpp
   src/SceneManager.cpp

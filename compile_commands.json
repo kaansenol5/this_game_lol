@@ -6,8 +6,8 @@
 },
 {
   "directory": "/home/kaan/projects/nuketown_game",
-  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/EventHandler.cpp.o -c /home/kaan/projects/nuketown_game/src/EventHandler.cpp",
-  "file": "/home/kaan/projects/nuketown_game/src/EventHandler.cpp"
+  "command": "/usr/bin/c++  -I/usr/include/SDL2 -Wall -Wextra -lSDL2 -lSDL2_image -lSDL2_ttf -std=c++17 -pthread -O0 -g -std=gnu++17 -o CMakeFiles/NukeTown.dir/src/BaseEventHandler.cpp.o -c /home/kaan/projects/nuketown_game/src/BaseEventHandler.cpp",
+  "file": "/home/kaan/projects/nuketown_game/src/BaseEventHandler.cpp"
 },
 {
   "directory": "/home/kaan/projects/nuketown_game",
