@@ -3,6 +3,7 @@
 #include <SDL2/SDL_video.h>
 #include "UI/UI.hpp"
 #include "Game.hpp"
+#include "SimpleEventHandler.hpp"
 
 enum scene{
     START_MENU, GAME
@@ -18,6 +19,7 @@ public:
     static unsigned short width;
     static unsigned short height;
 private:
+    SimpleEventHandler start_handler;
     UI* start_scene; 
     Game* game_scene;
     SDL_Window* window;

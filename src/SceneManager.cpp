@@ -9,6 +9,7 @@
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include "SimpleEventHandler.hpp"
 
 unsigned short SceneManager::width = 0;
 unsigned short SceneManager::height = 0;
@@ -35,19 +36,6 @@ SceneManager::SceneManager(unsigned short width, unsigned short height){
         menu.add_button((char*) "assets/fonts/font.ttf", (char*) "Start!", 36, Menu::CENTERED, true, [this](Button& button){
             current_scene = GAME;
         });
-        menu.set_extra_event_handling([](SDL_Event event){
-            switch (event.type) {
-                case SDL_QUIT:
-                    quit_game();
-                    break;
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
-                            quit_game();
-                            break;
-                    }
-            }
-        });
     });
     game_scene = new Game;
     is_running = true;
@@ -55,6 +43,7 @@ SceneManager::SceneManager(unsigned short width, unsigned short height){
 
 SceneManager::~SceneManager(){
     delete start_scene;
+    delete game_scene;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
@@ -70,6 +59,7 @@ bool SceneManager::check_running(){
 void SceneManager::update(){
     switch (current_scene) {
         case START_MENU:
+            start_handler.handle_events();
             start_scene -> render();
             break;
         default:

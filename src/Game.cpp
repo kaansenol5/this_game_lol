@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "EventHandler.hpp"
 #include "GameObjectManager.hpp"
 #include "SDL_render.h"
 #include "SceneManager.hpp"
@@ -11,7 +10,6 @@ Game::Game(){
 
 void Game::update(){
     objects_manager.update_all();
-    event_handler.handle_events();
 }
 
 void Game::render(){

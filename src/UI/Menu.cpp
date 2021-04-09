@@ -73,13 +73,7 @@ void Menu::add_text(char* fontdir, char* text, int ptsize, item_location locatio
     texts.push_back({fontdir, text, ptsize, color, dst_rect});
 }
 
-void Menu::set_extra_event_handling(std::function<void (SDL_Event)> extra_event_handling){
-    this -> extra_event_handling = extra_event_handling; 
-}
-
 void Menu::handle_events(){
-    SDL_Event event;
-    SDL_PollEvent(&event);
     int x, y;
     Uint32 mouse_state = SDL_GetMouseState(&x, &y);
     for(auto& button : buttons){
@@ -93,5 +87,4 @@ void Menu::handle_events(){
             button.selected = false;
         }
     }
-    extra_event_handling(event);
 }

@@ -11,11 +11,11 @@ int main(int argc, char* argv[]){
     int frame_time;
     unsigned long long frame_counter = 0;
 
-    SceneManager scene_manager(config["width"], config["height"]);
+    SceneManager* scene_manager = new SceneManager(config["width"], config["height"]);
 
-    while (scene_manager.check_running()){
+    while (scene_manager->check_running()){
         frame_start = SDL_GetTicks();
-        scene_manager.update();
+        scene_manager->update();
         frame_counter++;
 
         frame_time = SDL_GetTicks() - frame_start;
@@ -23,6 +23,6 @@ int main(int argc, char* argv[]){
             SDL_Delay(frame_delay - frame_time);
         }
     }
-
+    delete scene_manager;
     std::cout << "bye!" << std::endl;
 }

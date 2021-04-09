@@ -14,7 +14,8 @@ option(USE_CLANG "build application with clang" ON)
 add_executable(
   NukeTown
   src/main.cpp
-  src/EventHandler.cpp
+  src/BaseEventHandler.cpp
+  src/SimpleEventHandler.cpp
   src/Game.cpp
   src/GameObjectManager.cpp
   src/SceneManager.cpp
