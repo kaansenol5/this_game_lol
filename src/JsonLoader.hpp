@@ -9,8 +9,9 @@ class JsonLoader{
 public:
   static json inline load(char* file_name){
     std::cout << "LOADING JSON FILE \"" << file_name << "\"" << std::endl;
-    std::ifstream file;
-    auto j = json::parse(file);
+    std::ifstream file(file_name);
+    json j;
+    file >> j;
     return j;
   }
 };
