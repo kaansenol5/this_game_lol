@@ -1,12 +1,24 @@
-#include "Player.hpp"
-#include "../GameObjectManager.hpp"
-#include "../SceneManager.hpp"
-#include "TransformComponent.hpp"
+#include "GameEventHandler.hpp"
+#include "GameObjectManager.hpp"
+#include "JsonLoader.hpp"
+#include "SDL_keyboard.h"
+#include "EntityComponents/Player.hpp"
+#include "EntityComponents/TransformComponent.hpp"
 
 
+GameEventHandler::GameEventHandler(){
+    load_keymap();
+}
 
-void Player::handle_movement(const unsigned char *state, Keymap keymap){
-    const auto id = entt::to_entity(GameObjectManager::EntityRegistry, *this);
+void GameEventHandler::load_keymap(){
+    config = JsonLoader::load("config/keymap.json");
+    keymap = {config["left"],config["right"],config["up"],config["down"]};
+}
+
+
+void GameEventHandler::handle_player_movement(){
+    const Uint8* state = SDL_GetKeyboardState(0);
+    const auto id = GameObjectManager::get_unique_entity_id<Player>();
 
     auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(id);
     SDL_Rect& location = transform_comp.destination_rect;

@@ -15,12 +15,12 @@ add_executable(
   NukeTown
   src/main.cpp
   src/BaseEventHandler.cpp
+  src/GameEventHandler.cpp
   src/Game.cpp
   src/GameObjectManager.cpp
   src/SceneManager.cpp
   src/EntityComponents/NPC.cpp
   src/EntityComponents/TransformComponent.cpp
-  src/EntityComponents/Player.cpp
   src/UI/UI.cpp
   src/UI/Button.cpp
   src/UI/Text.cpp

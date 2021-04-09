@@ -10,6 +10,8 @@ Game::Game(){
 
 void Game::update(){
     objects_manager.update_all();
+    event_handler.handle_events();
+    event_handler.handle_player_movement();
 }
 
 void Game::render(){
