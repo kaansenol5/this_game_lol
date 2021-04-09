@@ -10,13 +10,7 @@ public:
   static json inline load(char* file_name){
     std::cout << "LOADING JSON FILE \"" << file_name << "\"" << std::endl;
     std::ifstream file;
-    file.open(file_name, std::ios::out);
-    std::string text;
-    std::string tmp;
-    while (getline (file, tmp)) {
-      text += tmp;
-    }
-    auto j = json::parse(text);
+    auto j = json::parse(file);
     return j;
   }
 };
