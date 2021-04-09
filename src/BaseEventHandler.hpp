@@ -15,5 +15,5 @@ class BaseEventHandler{
 public:
     void handle_events();
     SDL_Event event;
-    virtual void on_key_down(SDL_Keycode keycode) = 0;
+    virtual void on_key_down(SDL_Keycode keycode);
 };

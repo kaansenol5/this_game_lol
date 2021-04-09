@@ -17,7 +17,16 @@ void BaseEventHandler::handle_events(){
             SceneManager::quit_game();
             break;
         case SDL_KEYDOWN:
-            on_key_down(event.key.keysym.sym);
+            switch (event.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    SceneManager::quit_game();
+                    break;
+                default:
+                    on_key_down(event.key.keysym.sym);
+            }
             break;
     }
+}
+
+void BaseEventHandler::on_key_down(SDL_Keycode keycode){
 }

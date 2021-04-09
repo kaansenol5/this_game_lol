@@ -9,7 +9,7 @@
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include "SimpleEventHandler.hpp"
+
 
 unsigned short SceneManager::width = 0;
 unsigned short SceneManager::height = 0;
