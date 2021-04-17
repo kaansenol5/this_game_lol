@@ -23,4 +23,5 @@ void BaseEventHandler::handle_events(){
 }
 
 void BaseEventHandler::on_key_down(SDL_Keycode keycode){
+    (void)keycode;
 }

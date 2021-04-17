@@ -55,7 +55,6 @@ void GameEventHandler::handle_player_movement(){
     }
 
     if (state[keymap.right]){
-        std::cout << "bbb" << std::endl;
         if (location.x < SceneManager::width - 200){
             transform_comp.move(1, 0);
         }

@@ -9,7 +9,6 @@
 Projectile::Projectile(SDL_Rect start_loc, int target_x, int target_y, unsigned range) 
 :start_loc(start_loc) ,range(range), target_x(target_x), target_y(target_y) {
     m = (double)(target_y - start_loc.y) / (double)(target_x - start_loc.x);
-    std::cout << m << std::endl;
     if(start_loc.x - target_x > 0){
         x_direction = -1;
     }
