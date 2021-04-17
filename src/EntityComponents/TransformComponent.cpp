@@ -45,3 +45,8 @@ void TransformComponent::move(int x_diff, int y_diff, bool with_speed){
         destination_rect.y += y_diff; 
     }
 }
+
+void TransformComponent::set_xy(int x, int y){
+  destination_rect.x = x;
+  destination_rect.y = y;
+}

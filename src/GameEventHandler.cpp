@@ -4,10 +4,15 @@
 #include "SDL_keyboard.h"
 #include "EntityComponents/Player.hpp"
 #include "EntityComponents/TransformComponent.hpp"
+#include "SDL_keycode.h"
+#include "SDL_mouse.h"
+#include "SDL_scancode.h"
 
 
-GameEventHandler::GameEventHandler(){
+GameEventHandler::GameEventHandler(GameObjectManager& objects_manager):objects_manager(objects_manager){
     load_keymap();
+
+
 }
 
 void GameEventHandler::load_keymap(){
@@ -18,9 +23,8 @@ void GameEventHandler::load_keymap(){
 
 void GameEventHandler::handle_player_movement(){
     const Uint8* state = SDL_GetKeyboardState(0);
-    const auto id = GameObjectManager::get_unique_entity_id<Player>();
-
-    auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(id);
+    auto player_id = GameObjectManager::get_unique_entity_id<Player>();
+    auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(player_id);
     SDL_Rect& location = transform_comp.destination_rect;
 
     if (state[keymap.up]){
@@ -51,6 +55,7 @@ void GameEventHandler::handle_player_movement(){
     }
 
     if (state[keymap.right]){
+        std::cout << "bbb" << std::endl;
         if (location.x < SceneManager::width - 200){
             transform_comp.move(1, 0);
         }
@@ -59,3 +64,22 @@ void GameEventHandler::handle_player_movement(){
         }
     }
 }
+
+void GameEventHandler::handle_mouse(){
+    int x, y;
+    frame_counter++;
+    Uint32 mouse_state = SDL_GetMouseState(&x, &y);
+    if((mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT))){
+        auto player_id = GameObjectManager::get_unique_entity_id<Player>();
+        auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(player_id);
+        SDL_Rect& location = transform_comp.destination_rect;
+        objects_manager.shoot_projectile(4, location, x, y, 60);
+    }
+}
+
+
+void GameEventHandler::on_key_down(SDL_Keycode keycode){
+    switch (keycode) {
+    }
+}
+

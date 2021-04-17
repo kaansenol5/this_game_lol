@@ -4,7 +4,8 @@
 #include "SceneManager.hpp"
 #include "TextureManager.hpp"
 
-Game::Game(){
+Game::Game()
+:event_handler(objects_manager){
     objects_manager.spawn_player(200, 200);
 }
 
@@ -12,6 +13,7 @@ void Game::update(){
     objects_manager.update_all();
     event_handler.handle_events();
     event_handler.handle_player_movement();
+    event_handler.handle_mouse();
 }
 
 void Game::render(){

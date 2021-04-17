@@ -15,6 +15,7 @@ public:
     void spawn_player(int x, int y);
     void enemy_spawn_random();
     void landresource_spawn_random();
+    void shoot_projectile(int subtag, SDL_Rect location, int x_direction, int y_direction, unsigned range = 4294967295);
     static entt::registry EntityRegistry;
     template<typename T>
     static inline entt::entity get_unique_entity_id(){

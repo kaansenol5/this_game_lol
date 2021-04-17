@@ -7,10 +7,11 @@ public:
     TransformComponent(int x, int y, int w, int h, int real_w, int real_h, bool is_animated, int x_animation_count, int y_animation_count, SDL_Texture* texture, int speed);
     void render();
     void move(int x_diff, int y_diff, bool with_speed = true);
+    void set_xy(int x, int y);
     SDL_Rect destination_rect;
+    int base_speed;
 private:
     void animate();
-    int base_speed;
     int current_speed = base_speed;
     int real_width;
     int real_height;

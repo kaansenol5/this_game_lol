@@ -21,6 +21,7 @@ add_executable(
   src/SceneManager.cpp
   src/EntityComponents/NPC.cpp
   src/EntityComponents/TransformComponent.cpp
+  src/EntityComponents/Projectile.cpp
   src/UI/UI.cpp
   src/UI/Button.cpp
   src/UI/Text.cpp
