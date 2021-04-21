@@ -72,7 +72,7 @@ void GameEventHandler::handle_mouse(){
         auto player_id = GameObjectManager::get_unique_entity_id<Player>();
         auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(player_id);
         SDL_Rect& location = transform_comp.destination_rect;
-        objects_manager.shoot_projectile(4, location, x, y, 60);
+        objects_manager.shoot_projectile(4, location, x, y, 600);
     }
 }
 
