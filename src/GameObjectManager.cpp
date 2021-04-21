@@ -1,10 +1,12 @@
 #include "GameObjectManager.hpp"
 #include "JsonLoader.hpp"
+#include "SDL_rect.h"
 #include "TextureManager.hpp"
 #include "EntityComponents/Player.hpp"
 #include "EntityComponents/NPC.hpp"
 #include "EntityComponents/TransformComponent.hpp"
 #include "EntityComponents/Projectile.hpp"
+#include "EntityComponents/Hitbox.hpp"
 #include <string>
 
 
@@ -44,6 +46,7 @@ void GameObjectManager::update_all(){
 void GameObjectManager::shoot_projectile(int tag, SDL_Rect location, int x_direction, int y_direction, unsigned range){
   entt::entity spawned = spawn(tag, location.x, location.y);
   EntityRegistry.emplace<Projectile>(spawned, location, x_direction, y_direction, range);
+  EntityRegistry.emplace<Hitbox>(spawned);
 }
 
 void GameObjectManager::render_all(){
@@ -79,8 +82,23 @@ entt::entity GameObjectManager::spawn(int tag, int x, int y){
     }
     else if(current_conf["type"] == "player"){
       EntityRegistry.emplace<Player>(spawned);
+      EntityRegistry.emplace<Hitbox>(spawned);
     }
     return spawned;
 }
 
+
+entt::entity GameObjectManager::check_collision_with_any(SDL_Rect rect){
+  auto hitbox_entities = EntityRegistry.view<Hitbox>();
+  for(auto id : hitbox_entities){
+    TransformComponent transform = EntityRegistry.get<TransformComponent>(id);
+    SDL_Rect &hitbox_loc = transform.destination_rect;
+    if(rect.x > hitbox_loc.x && rect.x < hitbox_loc.x + hitbox_loc.w){
+      if(rect.y > hitbox_loc.y && rect.y < hitbox_loc.y + hitbox_loc.h){
+        return id;
+      }
+    }
+  }
+  return entt::null;
+}
 
