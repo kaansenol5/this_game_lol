@@ -8,6 +8,7 @@
 #include "EntityComponents/ProjectileComponent.hpp"
 #include "EntityComponents/Hitbox.hpp"
 #include "EntityComponents/TextureComponent.hpp"
+#include "EntityComponents/SpeedComponent.h"
 #include <string>
 
 
@@ -74,6 +75,9 @@ entt::entity GameObjectManager::spawn(std::vector<std::string> entity_class, int
       std::string file = character["TextureComponent"]["texture"];
       SDL_Texture* entity_texture = TextureManager::load_or_get_image_texture(file.c_str());
       EntityRegistry.emplace<TextureComponent>(spawned, entity_texture, character["TextureComponent"]["x_animation_count"], character["TextureComponent"]["y_animation_count"], character["TextureComponent"]["width"], character["TextureComponent"]["height"]);
+    }
+    if(list.check_existence<int>(entity_tag, "movement_speed")){
+      EntityRegistry.emplace<SpeedComponent>(spawned, character["movement_speed"]);
     }
     
     return spawned;
