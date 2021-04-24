@@ -17,11 +17,15 @@ add_executable(
   src/BaseEventHandler.cpp
   src/GameEventHandler.cpp
   src/Game.cpp
+  src/EntityList.cpp
   src/GameObjectManager.cpp
   src/SceneManager.cpp
+  src/TextureManager.cpp
+  src/EntityComponents/AdvancedCharacterComponent.hpp
   src/EntityComponents/NPC.cpp
   src/EntityComponents/TransformComponent.cpp
-  src/EntityComponents/Projectile.cpp
+  src/EntityComponents/ProjectileComponent.cpp
+  src/EntityComponents/TextureComponent.cpp
   src/UI/UI.cpp
   src/UI/Button.cpp
   src/UI/Text.cpp
