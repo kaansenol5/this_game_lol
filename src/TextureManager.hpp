@@ -4,6 +4,8 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
+#include <stdexcept>
+#include <string>
 #include "SDL_error.h"
 #include "SceneManager.hpp"
 
@@ -86,4 +88,20 @@ public:
       SDL_SetRenderDrawColor(SceneManager::renderer, r, g, b, a);
       SDL_RenderClear(SceneManager::renderer);
   }
+
+  static inline SDL_Texture* load_or_get_image_texture(std::string file){
+      try{
+          SDL_Texture* texture = loaded_image_textures.at(file);
+          return loaded_image_textures[file];
+      }
+      catch(std::out_of_range &e){
+          std::cout << "Loading new texture: " << file << std::endl;
+          SDL_Texture* new_texture = load_image(file.c_str());
+          loaded_image_textures.insert(std::pair<std::string, SDL_Texture*>(file, new_texture));
+          return new_texture;
+      }
+  }
+private:
+    static std::map<std::string, SDL_Texture*> loaded_image_textures; // char* is filename
+
 };
