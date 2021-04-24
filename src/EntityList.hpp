@@ -1,5 +1,7 @@
 #include "JsonLoader.hpp"
+#include "include/json.hpp"
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 class EntityList{
@@ -10,10 +12,10 @@ public:
 
     template<class T> inline bool check_existence(unsigned tag, std::string varname){
         try{
-            T var = list[std::to_string(tag)][varname];
+            T var = list.at(std::to_string(tag)).at(varname);
             return true;
         }
-        catch (std::out_of_range &e){
+        catch (nlohmann::detail::out_of_range &e){
             return false;
         }
     }
