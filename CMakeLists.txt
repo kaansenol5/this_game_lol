@@ -22,7 +22,7 @@ add_executable(
   src/SceneManager.cpp
   src/TextureManager.cpp
   src/EntityComponents/AdvancedCharacterComponent.hpp
-  src/EntityComponents/NPC.cpp
+  src/EntityComponents/NPCComponent.cpp
   src/EntityComponents/TransformComponent.cpp
   src/EntityComponents/ProjectileComponent.cpp
   src/EntityComponents/TextureComponent.cpp
