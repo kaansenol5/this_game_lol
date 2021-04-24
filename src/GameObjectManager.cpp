@@ -1,9 +1,10 @@
 #include "GameObjectManager.hpp"
 #include "JsonLoader.hpp"
 #include "SDL_rect.h"
+#include "SceneManager.hpp"
 #include "TextureManager.hpp"
 #include "EntityComponents/Player.hpp"
-#include "EntityComponents/NPC.hpp"
+#include "EntityComponents/NPCComponent.hpp"
 #include "EntityComponents/TransformComponent.hpp"
 #include "EntityComponents/ProjectileComponent.hpp"
 #include "EntityComponents/Hitbox.hpp"
@@ -25,7 +26,7 @@ GameObjectManager::~GameObjectManager(){
 }
 
 void GameObjectManager::update_all(){
-  EntityRegistry.view<NPC_Component>().each([](entt::entity id, NPC_Component& component){
+  EntityRegistry.view<NPCComponent>().each([](entt::entity id, NPCComponent& component){
     component.update();
   });
   EntityRegistry.view<ProjectileComponent>().each([](entt::entity id, ProjectileComponent& projectile){
@@ -79,10 +80,20 @@ entt::entity GameObjectManager::spawn(std::vector<std::string> entity_class, int
     if(list.check_existence<int>(entity_tag, "movement_speed")){
       EntityRegistry.emplace<SpeedComponent>(spawned, character["movement_speed"]);
     }
+
+    if(list.check_existence<json>(entity_tag, "NPCComponent")){
+      EntityRegistry.emplace<NPCComponent>(spawned, character["NPCComponent"]["type"]);
+    }
     
     return spawned;
 }
 
+
+void GameObjectManager::enemy_spawn_random(){
+  EntityList enemies((char*)"config/characters.json", {"characters", "enemies"});
+  int tag = rand() % enemies.size;
+  spawn({"characters", "enemies"}, tag, rand() % SceneManager::width, rand() % SceneManager::height);
+}
 
 entt::entity GameObjectManager::check_collision_with_any(SDL_Rect rect){
   auto hitbox_entities = EntityRegistry.view<Hitbox>();

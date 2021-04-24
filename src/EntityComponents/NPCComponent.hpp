@@ -1,19 +1,16 @@
 #pragma once
 #include "TransformComponent.hpp"
 #include "../GameObjectManager.hpp"
+#include <string>
 
-enum Type{
-  ENEMY, NEUTRAL
-};
 
-class NPC_Component{
+
+class NPCComponent{
 public:
-  NPC_Component(Type type);
+  NPCComponent(std::string type);
   void update();
 private:
-  Type type;
-  int width;
-  int height;
+  std::string type;
   void attackPlayer();
   void randomMovement();
 };

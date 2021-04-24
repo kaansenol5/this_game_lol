@@ -31,13 +31,16 @@
             "width":32,
             "height":32,
             "x_animation_count":3,
-            "y_animation_count":1
+            "y_animation_count":0
           },
           "movement_speed":2,
           "AdvancedCharacterComponent":{
             "charcter_type":"npc",
             "npc_type":"enemy",
             "base_movement_speed":3
+          },
+          "NPCComponent":{
+            "type":"enemy"
           }
         }
     }

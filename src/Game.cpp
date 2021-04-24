@@ -7,6 +7,7 @@
 Game::Game()
 :event_handler(objects_manager){
     objects_manager.spawn_player(200, 200);
+    objects_manager.enemy_spawn_random();
 }
 
 void Game::update(){
