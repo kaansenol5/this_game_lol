@@ -3,9 +3,9 @@
 #include "SDL_rect.h"
 #include "TransformComponent.hpp"
 
-class Projectile{
+class ProjectileComponent{
 public:
-    Projectile(SDL_Rect start_loc, int target_x, int target_y, unsigned range);
+    ProjectileComponent(SDL_Rect start_loc, int target_x, int target_y, unsigned range);
     void update();
 private:
     SDL_Rect start_loc;

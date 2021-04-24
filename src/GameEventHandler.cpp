@@ -7,7 +7,7 @@
 #include "SDL_keycode.h"
 #include "SDL_mouse.h"
 #include "SDL_scancode.h"
-
+#include "SceneManager.hpp"
 
 GameEventHandler::GameEventHandler(GameObjectManager& objects_manager):objects_manager(objects_manager){
     load_keymap();
@@ -72,7 +72,7 @@ void GameEventHandler::handle_mouse(){
         auto player_id = GameObjectManager::get_unique_entity_id<Player>();
         auto& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(player_id);
         SDL_Rect& location = transform_comp.destination_rect;
-        objects_manager.shoot_projectile(4, location, x, y, 600);
+        objects_manager.shoot_projectile(0, location, x, y, 600);
     }
 }
 

@@ -5,8 +5,9 @@
 #include "EntityComponents/Player.hpp"
 #include "EntityComponents/NPC.hpp"
 #include "EntityComponents/TransformComponent.hpp"
-#include "EntityComponents/Projectile.hpp"
+#include "EntityComponents/ProjectileComponent.hpp"
 #include "EntityComponents/Hitbox.hpp"
+#include "EntityComponents/TextureComponent.hpp"
 #include <string>
 
 
@@ -14,23 +15,11 @@ entt::registry GameObjectManager::EntityRegistry;
 
 GameObjectManager::GameObjectManager(){
     EntityRegistry = entt::registry();
-    config = JsonLoader::load((char*)"config/characters.json");
-    unsigned character_variation_amount = config["character_variation_amount"];
-
-    for(unsigned i = 0; i <= character_variation_amount; i++){
-        std::string asset = config[std::to_string(i)]["sprite"];
-        SDL_Texture* texture = TextureManager::load_image(asset.c_str());
-        textures.push_back (texture);
-    }
-    std::cout << "Game sucsessfully loaded most textures" << std::endl;
 }
 
 
 
 GameObjectManager::~GameObjectManager(){
-  for(SDL_Texture* texture : textures){
-    SDL_DestroyTexture(texture);
-  }
   std::cout << "GameObjectManager.cpp goes bye-bye" << std::endl;
 }
 
@@ -38,22 +27,22 @@ void GameObjectManager::update_all(){
   EntityRegistry.view<NPC_Component>().each([](entt::entity id, NPC_Component& component){
     component.update();
   });
-  EntityRegistry.view<Projectile>().each([](entt::entity id, Projectile& projectile){
+  EntityRegistry.view<ProjectileComponent>().each([](entt::entity id, ProjectileComponent& projectile){
     projectile.update();
   });
 }
 
 void GameObjectManager::shoot_projectile(int tag, SDL_Rect location, int x_direction, int y_direction, unsigned range){
-  entt::entity spawned = spawn(tag, location.x, location.y);
-  EntityRegistry.emplace<Projectile>(spawned, location, x_direction, y_direction, range);
+  entt::entity spawned = spawn({"projectiles"},tag, location.x, location.y);
+  EntityRegistry.emplace<ProjectileComponent>(spawned, location, x_direction, y_direction, range);
   EntityRegistry.emplace<Hitbox>(spawned);
 }
 
 void GameObjectManager::render_all(){
-    auto view = EntityRegistry.view<TransformComponent>();
+    auto view = EntityRegistry.view<TextureComponent>();
     for(entt::entity id : view){
-      TransformComponent& transform = view.get<TransformComponent>(id);
-      transform.render();
+      TextureComponent& texturecomp = view.get<TextureComponent>(id);
+      texturecomp.render();
     }
 }
 
@@ -62,28 +51,31 @@ void GameObjectManager::render_all(){
 void GameObjectManager::move_all(int x, int y){
   EntityRegistry.view<TransformComponent>().each([x, y](auto entity, auto &transform_comp){
     if( !GameObjectManager::EntityRegistry.has<Player>(entity) ){
-      transform_comp.move(x,y,false);
+      transform_comp.move(x,y);
     }
   });
 }
 
 void GameObjectManager::spawn_player(int x, int y){
-    spawn(0, x, y);
+    entt::entity spawned = spawn({"characters", "players"}, 0, x, y);
+    EntityRegistry.emplace<Player>(spawned);
 }
 
 
-entt::entity GameObjectManager::spawn(int tag, int x, int y){
+entt::entity GameObjectManager::spawn(std::vector<std::string> entity_class, int entity_tag, int x, int y){
     entt::entity spawned = EntityRegistry.create();
-    auto current_conf = config[std::to_string(tag)];
+    EntityList list((char*)"config/characters.json", entity_class);
+    json character = list.get_character(entity_tag);
+
+    if(list.check_existence<json>(entity_tag, "TransformComponent")){
+      EntityRegistry.emplace<TransformComponent>(spawned, x, y, character["TransformComponent"]["width"], character["TransformComponent"]["height"]);
+    }
+    if(list.check_existence<json>(entity_tag, "TextureComponent")){
+      std::string file = character["TextureComponent"]["texture"];
+      SDL_Texture* entity_texture = TextureManager::load_or_get_image_texture(file.c_str());
+      EntityRegistry.emplace<TextureComponent>(spawned, entity_texture, character["TextureComponent"]["x_animation_count"], character["TextureComponent"]["y_animation_count"], character["TextureComponent"]["width"], character["TextureComponent"]["height"]);
+    }
     
-    EntityRegistry.emplace<TransformComponent>(spawned, x, y, current_conf["width"], current_conf["height"], current_conf["real_sprite_width"], current_conf["real_sprite_height"], current_conf["animated"], current_conf["x_animations"], current_conf["y_animations"], textures[tag], current_conf["movement_speed_x"]);
-    if(current_conf["type"] == "npc"){
-      EntityRegistry.emplace<NPC_Component>(spawned, current_conf["npc_type"]);
-    }
-    else if(current_conf["type"] == "player"){
-      EntityRegistry.emplace<Player>(spawned);
-      EntityRegistry.emplace<Hitbox>(spawned);
-    }
     return spawned;
 }
 
@@ -101,4 +93,5 @@ entt::entity GameObjectManager::check_collision_with_any(SDL_Rect rect){
   }
   return entt::null;
 }
+
 

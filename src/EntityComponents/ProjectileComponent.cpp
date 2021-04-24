@@ -1,4 +1,4 @@
-#include "Projectile.hpp"
+#include "ProjectileComponent.hpp"
 #include "SDL_rect.h"
 #include "../include/entt.hpp"
 #include "../GameObjectManager.hpp"
@@ -6,7 +6,7 @@
 #include "TransformComponent.hpp"
 #include <iostream>
 
-Projectile::Projectile(SDL_Rect start_loc, int target_x, int target_y, unsigned range) 
+ProjectileComponent::ProjectileComponent(SDL_Rect start_loc, int target_x, int target_y, unsigned range) 
 :start_loc(start_loc) ,range(range), target_x(target_x), target_y(target_y) {
     m = (double)(target_y - start_loc.y) / (double)(target_x - start_loc.x);
     if(start_loc.x - target_x > 0){
@@ -31,7 +31,7 @@ Projectile::Projectile(SDL_Rect start_loc, int target_x, int target_y, unsigned 
     }
 }
 
-void Projectile::update(){
+void ProjectileComponent::update(){
     entt::entity this_entity = entt::to_entity(GameObjectManager::EntityRegistry, *this);
     TransformComponent& transform_comp = GameObjectManager::EntityRegistry.get<TransformComponent>(this_entity);
     transform_comp.move(x_direction, y_direction);
