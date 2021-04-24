@@ -27,6 +27,7 @@ void TextureComponent::animate(){
 }
 
 void TextureComponent::render(){
+    animate();
     entt::entity this_entity = entt::to_entity(GameObjectManager::EntityRegistry, *this);
     SDL_Rect destination_rect = GameObjectManager::EntityRegistry.get<TransformComponent>(this_entity).destination_rect;
     TextureManager::render(texture, &source_rect, &destination_rect); // destination_rect was a pointer, so no &
