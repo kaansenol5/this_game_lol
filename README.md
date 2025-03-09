@@ -1,3 +1,5 @@
+note from 2025: i dont remember what this was. made it public.
+
 # Dependencies
 
 SDL2
