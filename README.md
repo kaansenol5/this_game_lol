@@ -1,4 +1,4 @@
-note from 2025: i dont remember what this was. made it public.
+note from 2025: i dont remember what this was. made it public. it is incomplete and abandoned completely
 
 # Dependencies
 
